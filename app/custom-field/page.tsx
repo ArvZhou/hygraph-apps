@@ -1,13 +1,20 @@
 // this is the complete code
 'use client'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment, Component } from 'react';
 import {
     Wrapper,
     useApp,
     useFieldExtension,
 } from '@hygraph/app-sdk-react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+let CKComponent = (props: {data: string, onChange: (arg0: any, arg1: any) => void}) => <p>CKEditor is not init!</p>
+
+const importCK = async () => {
+    const { CKEditor  } = await import('@ckeditor/ckeditor5-react');
+    const { default: ClassicEditor } = await import('@ckeditor/ckeditor5-build-classic');
+
+    return {CKEditor, ClassicEditor};
+}
 
 function Setup() {
     const { installation } = useApp();
@@ -21,7 +28,20 @@ function Setup() {
 function CustomField() {
     const { value, onChange } = useFieldExtension();
     const [localValue, setLocalValue] = useState(value || '');
+    const [ckLoaded, setCkLoaded] = useState(false);
 
+    useEffect(() => {
+        const initCK = async () => {
+            const { CKEditor, ClassicEditor } = await importCK();
+
+            CKComponent = function CK(props) {
+                return <CKEditor editor={ClassicEditor} {...props} />
+            }
+
+            setCkLoaded(true);
+        }
+        initCK() 
+    }, [value])
 
     useEffect(() => {
         try {
@@ -31,18 +51,14 @@ function CustomField() {
         }
     }, [localValue, onChange]);
 
-    return (
-
-        <CKEditor
-            editor={ClassicEditor}
-            data={value || ''}
-            onChange={(event, editor) => {
-                const data = editor.getData();
-
-                setLocalValue(data);
-            }}
-        />
-    );
+    return ckLoaded ? (
+                <CKComponent
+                    data={value || ''}
+                    onChange={(_, editor) => {
+                        setLocalValue(editor.getData());
+                    }}
+                />
+        ) : '...';
 }
 
 function Install() {
