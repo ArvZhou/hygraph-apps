@@ -1,11 +1,12 @@
 // this is the complete code
 'use client'
-import { useState, useEffect, Fragment, Component } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Wrapper,
     useApp,
     useFieldExtension,
 } from '@hygraph/app-sdk-react';
+import { useDebouncedCallback } from 'use-debounce';
 
 let CKComponent = (props: {data: string, onChange: (arg0: any, arg1: any) => void}) => <p>CKEditor is not init!</p>
 
@@ -27,8 +28,12 @@ function Setup() {
 
 function CustomField() {
     const { value, onChange } = useFieldExtension();
-    const [localValue, setLocalValue] = useState(value || '');
     const [ckLoaded, setCkLoaded] = useState(false);
+
+    const debounced = useDebouncedCallback(
+        value => onChange(value),
+        1000
+      );
 
     useEffect(() => {
         const initCK = async () => {
@@ -41,21 +46,13 @@ function CustomField() {
             setCkLoaded(true);
         }
         initCK() 
-    }, [value])
-
-    useEffect(() => {
-        try {
-            onChange(localValue);
-        } catch (error) {
-            console.error('Error: please use it in real field.', error);
-        }
-    }, [localValue, onChange]);
+    }, [])
 
     return ckLoaded ? (
                 <CKComponent
                     data={value || ''}
                     onChange={(_, editor) => {
-                        setLocalValue(editor.getData());
+                        debounced(editor.getData());
                     }}
                 />
         ) : '...';
