@@ -1,4 +1,3 @@
-// this is the complete code
 'use client'
 import { useState, useEffect } from 'react';
 import {
@@ -7,6 +6,8 @@ import {
     useFieldExtension,
 } from '@hygraph/app-sdk-react';
 import { useDebouncedCallback } from 'use-debounce';
+
+import styles from './index.module.css'
 
 let CKComponent = (props: {data: string, onChange: (arg0: any, arg1: any) => void}) => <p>CKEditor is not init!</p>
 
@@ -48,14 +49,15 @@ function CustomField() {
         initCK() 
     }, [])
 
-    return ckLoaded ? (
-                <CKComponent
-                    data={value || ''}
-                    onChange={(_, editor) => {
-                        debounced(editor.getData());
-                    }}
-                />
-        ) : '...';
+    if (!ckLoaded) {
+        return '...';
+    }
+
+    return (
+        <CKComponent
+            data={value || ''}
+            onChange={(_, editor) => debounced(editor.getData())}
+        />)
 }
 
 function Install() {
@@ -63,9 +65,8 @@ function Install() {
 
     return (
         <button
-            onClick={() => {
-                updateInstallation({ status: 'COMPLETED', config: {} });
-            }}
+            className={styles.installButton}
+            onClick={() => updateInstallation({ status: 'COMPLETED', config: {} })}
         >
             Install App
         </button>
