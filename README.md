@@ -16,4 +16,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Integrated Into Hygraph
 
-Open [https://hygraph.com/docs/app-framework/first-steps/overview](App Framework), follow instructions
+Open [App Framework](https://hygraph.com/docs/app-framework/first-steps/overview), follow instructions
