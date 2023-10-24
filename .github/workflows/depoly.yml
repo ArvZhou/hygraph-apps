@@ -1,0 +1,13 @@
+name: Actions CI - Next.js version 12 static site export, GitHub Actions Build and Deploy
+on:
+  push:
+    branches: [ main ]
+# 执行的一项或多项任务
+jobs:
+  build-and-deploy:
+    # 运行在虚拟机环境ubuntu-latest
+    # https://docs.github.com/zh/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: ubuntu-latest
+    steps:
+    - name: 触发Jenkins自动部署   ️
+      uses: actions/checkout@v3
