@@ -17,3 +17,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Integrated Into Hygraph
 
 Open [App Framework](https://hygraph.com/docs/app-framework/first-steps/overview), follow instructions
+
+### App Detail
+
+| App Name | App Url | Element Url
+| ---- | --- | --- ｜
+｜ Ckeditor | [Domian]//hygraph-apps/ckeditor | [Domian]//hygraph-apps/ckeditor/field |

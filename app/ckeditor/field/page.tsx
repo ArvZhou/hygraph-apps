@@ -1,13 +1,9 @@
 'use client'
 import { useState, useEffect } from 'react';
-import {
-    Wrapper,
-    useApp,
-    useFieldExtension,
-} from '@hygraph/app-sdk-react';
+import { useFieldExtension } from '@hygraph/app-sdk-react';
 import { useDebouncedCallback } from 'use-debounce';
 
-import styles from './index.module.css'
+import CKEditorWrapper from '../../../components/ckeditor/wrapper';
 
 let CKComponent = (props: {data: string, onChange: (arg0: any, arg1: any) => void}) => <p>CKEditor is not init!</p>
 
@@ -18,23 +14,11 @@ const importCK = async () => {
     return {CKEditor, ClassicEditor};
 }
 
-function Setup() {
-    const { installation } = useApp();
-
-    if (installation.status === 'COMPLETED') {
-        return <CustomField />;
-    }
-    return <Install />;
-}
-
 function CustomField() {
     const { value, onChange } = useFieldExtension();
     const [ckLoaded, setCkLoaded] = useState(false);
 
-    const debounced = useDebouncedCallback(
-        value => onChange(value),
-        1000
-      );
+    const debounced = useDebouncedCallback(onChange, 1000);
 
     useEffect(() => {
         const initCK = async () => {
@@ -60,23 +44,10 @@ function CustomField() {
         />)
 }
 
-function Install() {
-    const { updateInstallation } = useApp();
-
-    return (
-        <button
-            className={styles.installButton}
-            onClick={() => updateInstallation({ status: 'COMPLETED', config: {} })}
-        >
-            Install App
-        </button>
-    );
-}
-
 export default function MyCustomField() {
     return (
-        <Wrapper>
-            <Setup />
-        </Wrapper>
+        <CKEditorWrapper>
+            <CustomField />
+        </CKEditorWrapper>
     );
 }

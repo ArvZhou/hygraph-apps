@@ -1,0 +1,11 @@
+.container {
+    background-color: #fff;
+    padding-bottom: 10px;
+}
+
+.installButton {
+    border: 1px #f0f0f0 solid;
+    padding: 7px;
+    border-radius: 3px;
+    font-size: 12px;
+}
