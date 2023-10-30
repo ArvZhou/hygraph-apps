@@ -1,53 +1,25 @@
 'use client'
-import { useState, useEffect } from 'react';
 import { useFieldExtension } from '@hygraph/app-sdk-react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import CKEditorWrapper from '../../../components/ckeditor/wrapper';
+import CKEditor4 from '../../../components/ckeditor/editor4';
 
-let CKComponent = (props: {data: string, onChange: (arg0: any, arg1: any) => void}) => <p>CKEditor is not init!</p>
-
-const importCK = async () => {
-    const { CKEditor  } = await import('@ckeditor/ckeditor5-react');
-    const { default: ClassicEditor } = await import('@ckeditor/ckeditor5-build-classic');
-
-    return {CKEditor, ClassicEditor};
-}
-
-function CustomField() {
+function CKEditorFieldVersion4() {
     const { value, onChange } = useFieldExtension();
-    const [ckLoaded, setCkLoaded] = useState(false);
-
     const debounced = useDebouncedCallback(onChange, 1000);
 
-    useEffect(() => {
-        const initCK = async () => {
-            const { CKEditor, ClassicEditor } = await importCK();
-
-            CKComponent = function CK(props) {
-                return <CKEditor editor={ClassicEditor} {...props} />
-            }
-
-            setCkLoaded(true);
-        }
-        initCK() 
-    }, [])
-
-    if (!ckLoaded) {
-        return '...';
-    }
-
     return (
-        <CKComponent
-            data={value || ''}
-            onChange={(_, editor) => debounced(editor.getData())}
+        <CKEditor4
+            value={value || ''}
+            onChange={(data: any) => debounced(data)}
         />)
 }
 
 export default function MyCustomField() {
     return (
         <CKEditorWrapper>
-            <CustomField />
+            <CKEditorFieldVersion4 />
         </CKEditorWrapper>
     );
 }
