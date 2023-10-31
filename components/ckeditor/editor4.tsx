@@ -2,7 +2,15 @@ import { useEffect, useState, useCallback } from "react";
 import { CKEDITOR_STAMP, DEFAULT_CONFIG } from './constants';
 
 export default function Editor(
-    {name="ckeditor", placeholder="", value, config={}, onChange, onMaximize=() => void 0, onFocus=() => void 0} : EditorPropsInterface
+    {
+        name="ckeditor",
+        placeholder="",
+        value,
+        config={},
+        onChange,
+        onMaximize=(data) => data,
+        onFocus=() => void 0
+    } : EditorPropsInterface
 ) {
     const [ckeditor, setCkeditor] = useState<EditorInterface | null>(null);
 
@@ -12,6 +20,7 @@ export default function Editor(
         }
 
         const selection = editor.getSelection()?.getNative();
+
         if (!selection || selection.baseNode.parentNode.nodeName === 'A') {
             return;
         }
@@ -45,8 +54,6 @@ export default function Editor(
 
     const initEditor = useCallback(() => {
         window.CKEDITOR.timestamp = CKEDITOR_STAMP;
-
-        console.log(document.getElementById(name || ''));
 
         const editor = window.CKEDITOR.replace(name || '', {
             ...DEFAULT_CONFIG,
@@ -101,6 +108,12 @@ export default function Editor(
             bindEditorEvents(ckeditor);
         }
     }, [ckeditor, bindEditorEvents])
+
+    useEffect(() => {
+        if (!value && ckeditor) {
+            ckeditor.setData('');
+        }
+    }, [value, ckeditor])
 
     return (
         <div className="editor">

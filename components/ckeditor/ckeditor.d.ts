@@ -11,6 +11,7 @@ interface EditorInterface {
         }
     },
     getData: () => object,
+    setData: (arg: string) => object,
     resize: (arg0: string, arg1: string | number) => void,
     addMenuItems: (arg: any) => void,
     contextMenu: {
