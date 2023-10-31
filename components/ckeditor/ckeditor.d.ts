@@ -31,7 +31,7 @@ interface EditorPropsInterface {
     value: string,
     config?: EditorConfigInterface,
     onChange:(data: string) => void,
-    onMaximize?: (data: string) => void,
+    onMaximize?: (event: { stop: () => void}, data: string) => void,
     onFocus?: () => void,
 }
 

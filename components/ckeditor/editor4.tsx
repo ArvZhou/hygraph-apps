@@ -66,7 +66,7 @@ export default function Editor(
     }, [config, name])
 
     const bindEditorEvents = useCallback((editor: EditorInterface) => {
-        editor.on('maximize', () => onMaximize(editor.getData()));
+        editor.on('maximize', (event) => onMaximize(event, editor.getData()));
         editor.on('change', () => {
             onChange(editor.getData() || ' ')
         });
