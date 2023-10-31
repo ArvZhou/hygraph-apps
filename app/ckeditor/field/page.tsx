@@ -7,7 +7,7 @@ import CKEditor4 from '../../../components/ckeditor/editor4';
 
 function CKEditorFieldVersion4() {
     const { value, onChange } = useFieldExtension();
-    const debounced = useDebouncedCallback(onChange, 1000);
+    const debounced = useDebouncedCallback(onChange, 500);
 
     return (
         <CKEditor4

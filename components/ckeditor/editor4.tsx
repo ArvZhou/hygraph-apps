@@ -3,7 +3,7 @@ import { CKEDITOR_STAMP, DEFAULT_CONFIG } from './constants';
 
 export default function Editor(
     {
-        name="ckeditor",
+        name="ckeditorField",
         placeholder="",
         value,
         config={},
@@ -67,10 +67,14 @@ export default function Editor(
 
     const bindEditorEvents = useCallback((editor: EditorInterface) => {
         editor.on('maximize', () => onMaximize(editor.getData()));
-        editor.on('change', () => onChange(editor.getData()));
+        editor.on('change', () => {
+            onChange(editor.getData() || ' ')
+        });
         editor.on('key', (event: any) => {
             autoLink(editor, event);
-            setTimeout(() => onChange(editor.getData()), 10);
+            setTimeout(() => {
+                onChange(editor.getData() || ' ')
+            }, 10);
         });
         editor.on('focus', () => {
             if (config.focusEnlarge) {
@@ -83,7 +87,7 @@ export default function Editor(
             if (editor.mode === 'wysiwyg') return;
             const editing = window.localStorage.getItem('editing');
             editor.setMode('wysiwyg', () => {
-                onChange(editor.getData());
+                onChange(editor.getData() || ' ');
                 if (!editing) editor.setMode('source');
             });
         });
@@ -113,11 +117,9 @@ export default function Editor(
         if (!value && ckeditor) {
             ckeditor.setData('');
         }
-    }, [value, ckeditor])
+    }, [value, ckeditor, onChange])
 
     return (
-        <div className="editor">
-            <textarea id={name} className="input" placeholder={placeholder} defaultValue={value} />
-        </div>
+        <textarea id={name} placeholder={placeholder} defaultValue={value} />
     );
 }

@@ -2,7 +2,7 @@ export const CKEDITOR_STAMP: number = 123456789;
 
 export const DEFAULT_CONFIG: EditorConfigInterface = {
     language: 'en',
-    height: 300,
+    height: 250,
     entities: false,
     baseFloatZIndex: 1000,
     enterMode: '',

@@ -10,7 +10,7 @@ interface EditorInterface {
             })  | null
         }
     },
-    getData: () => object,
+    getData: () => string,
     setData: (arg: string) => object,
     resize: (arg0: string, arg1: string | number) => void,
     addMenuItems: (arg: any) => void,
@@ -30,8 +30,8 @@ interface EditorPropsInterface {
     placeholder?: string,
     value: string,
     config?: EditorConfigInterface,
-    onChange:(data: object) => void,
-    onMaximize?: (data: object) => void,
+    onChange:(data: string) => void,
+    onMaximize?: (data: string) => void,
     onFocus?: () => void,
 }
 
