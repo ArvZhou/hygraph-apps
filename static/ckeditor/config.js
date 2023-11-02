@@ -16,7 +16,7 @@ CKEDITOR.editorConfig = function (config) {
                 "Image",
                 "Youtube",
                 "Html5video",
-                "Swipe",
+                // "Swipe",
                 "FontSize",
                 "Bold",
                 "Italic",
@@ -39,7 +39,8 @@ CKEDITOR.editorConfig = function (config) {
                 "Table",
                 "HorizontalRule",
                 "CodeSnippet",
-                "Maximize"
+                // "Maximize",
+                "Hygraphmaximize"
             ]
         },
         "/",
@@ -72,7 +73,7 @@ CKEDITOR.editorConfig = function (config) {
             ]
         }
     ];
-    config.extraPlugins = "html5video,youtube,toggle,inserthtml,swipe";
+    config.extraPlugins = "html5video,youtube,toggle,inserthtml,swipe,hygraphmaximize";
     config.allowedContent = {
         $1: {
             // Use the ability to specify elements as an object.

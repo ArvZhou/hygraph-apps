@@ -1,5 +1,6 @@
 'use client'
-import { useFieldExtension, useUiExtensionDialog } from '@hygraph/app-sdk-react';
+import { useCallback, useState } from 'react';
+import { useFieldExtension } from '@hygraph/app-sdk-react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import CKEditorWrapper from '../../../components/ckeditor/wrapper';
@@ -9,24 +10,28 @@ function CKEditorFieldVersion4() {
     const { value, onChange, openDialog } = useFieldExtension();
     const debounced = useDebouncedCallback(onChange, 500);
 
-    console.log(localStorage.getItem('test'));
+    const onMaximize = useCallback(async (_:any, data: string) => {
+        const res = await openDialog('/ckeditor/field/maximize', {
+            ariaLabel: 'Cheditor maximize',
+            maxWidth: '1024px',
+            disableOverlayClick: true,
+            value: data
+        });
+
+        if (res) {
+            onChange(res);
+        }
+    }, [openDialog, onChange]);
 
     return (
         <CKEditor4
             value={value || ''}
             onChange={(data: any) => debounced(data)}
-            onMaximize={(event) => {
-                const dialog = openDialog('http://localhost:3000/ckeditor/field/maximize', {ariaLabel: 'Cheditor maximize'});
-                console.log('dialog', dialog, event, event.stop);
-                event.stop();
-                return false;
-            }}
+            onMaximize={onMaximize}
         />)
 }
 
 export default function MyCustomField() {
-
-
     return (
         <CKEditorWrapper>
             <CKEditorFieldVersion4 />

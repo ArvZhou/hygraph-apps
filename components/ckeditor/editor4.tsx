@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { CKEDITOR_STAMP, DEFAULT_CONFIG, DEFAULT_TOOLBAR } from './constants';
 
 export default function Editor(
@@ -9,9 +9,11 @@ export default function Editor(
         config={},
         onChange,
         onMaximize=(data) => data,
-        onFocus=() => void 0
+        onFocus=() => void 0,
+        isMaximize=false
     } : EditorPropsInterface
 ) {
+    const editorRef: { current: EditorInterface | null } = useRef(null);
     const [ckeditor, setCkeditor] = useState<EditorInterface | null>(null);
 
     const autoLink = (editor: EditorInterface, event: any) => {
@@ -52,23 +54,14 @@ export default function Editor(
         }
     }
 
-    const initEditor = useCallback(() => {
-        window.CKEDITOR.timestamp = CKEDITOR_STAMP;
+    const bindEditorEvents = useCallback(() => {
+        const editor = editorRef.current;
 
-        const editor = window.CKEDITOR.replace(name || '', {
-            ...DEFAULT_CONFIG,
-            enterMode: window.CKEDITOR.ENTER_BR,
-            toolbar: config.simple ? [['Source', '-', 'Bold', 'Italic', 'Underline'], '/'] : DEFAULT_TOOLBAR,
-        });
+        if (!editor) return;
 
-        if (editor)
-            setCkeditor(editor);
-    }, [config, name])
-
-    const bindEditorEvents = useCallback((editor: EditorInterface) => {
-        editor.on('maximize', (event) => onMaximize(event, editor.getData()));
+        editor.on('maximize', (event) => onMaximize(event, editor.getData() || ' '));
         editor.on('change', () => {
-            onChange(editor.getData() || ' ')
+            onChange(editorRef.current?.getData() || ' ')
         });
         editor.on('key', (event: any) => {
             autoLink(editor, event);
@@ -93,6 +86,37 @@ export default function Editor(
         });
     }, [onChange, onMaximize, config, onFocus])
 
+    const initEditor = useCallback(() => {
+        window.CKEDITOR.timestamp = CKEDITOR_STAMP;
+
+        let toolbar:Array<Array<string> | string | {name: string, items: Array<string>}> | null = DEFAULT_TOOLBAR;
+
+        if (config.simple) {
+            toolbar = [['Source', '-', 'Bold', 'Italic', 'Underline'], '/'];
+        }
+
+        if (config.full) {
+            toolbar = null;
+        }
+
+        const editor = window.CKEDITOR.replace(name || '', {
+            ...DEFAULT_CONFIG,
+            enterMode: window.CKEDITOR.ENTER_BR,
+            ...(toolbar ? {toolbar} : {}),
+            ...config
+        });
+
+        if (isMaximize && editor) {
+            editor.isMaximize = true;
+        }
+
+        if (editor) {
+            setCkeditor(editor);
+            editorRef.current = editor;
+            bindEditorEvents();
+        }
+    }, [config, name, bindEditorEvents, isMaximize])
+
     useEffect(() => {
         const script = document.createElement('script');
         let editor:any = null;
@@ -108,14 +132,12 @@ export default function Editor(
     }, [initEditor]);
 
     useEffect(() => {
-        if (ckeditor) {
-            bindEditorEvents(ckeditor);
-        }
-    }, [ckeditor, bindEditorEvents])
-
-    useEffect(() => {
         if (!value && ckeditor) {
             ckeditor.setData('');
+        }
+
+        if (value && ckeditor && value !== ckeditor.getData()) {
+            ckeditor.setData(value);
         }
     }, [value, ckeditor, onChange])
 

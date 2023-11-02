@@ -21,7 +21,7 @@ export const DEFAULT_TOOLBAR = [
             "Image",
             "Youtube",
             "Html5video",
-            "Swipe",
+            // "Swipe",
             "FontSize",
             "Bold",
             "Italic",
@@ -44,7 +44,7 @@ export const DEFAULT_TOOLBAR = [
             "Table",
             "HorizontalRule",
             "CodeSnippet",
-            // "Maximize"
+            "Hygraphmaximize"
         ]
     },
     "/",

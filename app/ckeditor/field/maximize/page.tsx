@@ -2,12 +2,28 @@
 'use client'
 import { Wrapper, useUiExtensionDialog } from '@hygraph/app-sdk-react';
 
-export default function MyCustomField() {
-    const { onCloseDialog, question } = useUiExtensionDialog();
+import CKEditor4 from '../../../../components/ckeditor/editor4';
+import { useState } from 'react';
+
+function CKEditorFieldVersion4() {
+    const { value, onCloseDialog } = useUiExtensionDialog();
+    const [richText, setRichText] = useState<string>(value as string);
 
     return (
+        <CKEditor4
+            name="ckeditorFieldMaximize"
+            value={richText || ''}
+            onChange={(data: any) => setRichText(data)}
+            onMaximize={(_: any, data: string) => onCloseDialog(data)}
+            config={{ height: 450, full: true }}
+            isMaximize
+        />)
+}
+
+export default function MyCustomField() {
+    return (
         <Wrapper>
-            <div onClick={() => onCloseDialog('test')}>Empty</div>
+            <CKEditorFieldVersion4 />
         </Wrapper>
     );
 }

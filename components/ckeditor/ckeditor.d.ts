@@ -22,7 +22,8 @@ interface EditorInterface {
         getNative: () => any
     },
     insertHtml: (arg: string) => void,
-    setMode: (arg0: string, arg1?: any) => void
+    setMode: (arg0: string, arg1?: any) => void,
+    isMaximize?: boolean
 }
 
 interface EditorPropsInterface {
@@ -33,6 +34,7 @@ interface EditorPropsInterface {
     onChange:(data: string) => void,
     onMaximize?: (event: { stop: () => void}, data: string) => void,
     onFocus?: () => void,
+    isMaximize?: boolean
 }
 
 interface EditorConfigInterface {
@@ -43,6 +45,7 @@ interface EditorConfigInterface {
     coreStyles_bold?: object,
     toolbar?: Array<Array<string> | string>,
     simple?: boolean,
+    full?: boolean,
     height?: string | number,
     focusEnlarge?: boolean
 }
