@@ -11,3 +11,41 @@ export const DEFAULT_CONFIG: EditorConfigInterface = {
         overrides: 'b'
     }
 }
+
+export const DEFAULT_TOOLBAR = [
+    {
+        name: "basic",
+        items: [
+            "Toggle",
+            "Source",
+            "Image",
+            "Youtube",
+            "Html5video",
+            "Swipe",
+            "FontSize",
+            "Bold",
+            "Italic",
+            "Strike",
+            "Underline",
+            "JustifyLeft",
+            "JustifyCenter",
+            "JustifyRight",
+            "JustifyBlock",
+            "NumberedList",
+            "BulletedList",
+            "Outdent",
+            "Indent",
+            "TextColor",
+            "BGColor",
+            "CopyFormatting",
+            "RemoveFormat",
+            "Link",
+            "Unlink",
+            "Table",
+            "HorizontalRule",
+            "CodeSnippet",
+            // "Maximize"
+        ]
+    },
+    "/",
+]

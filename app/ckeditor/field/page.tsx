@@ -16,10 +16,10 @@ function CKEditorFieldVersion4() {
             value={value || ''}
             onChange={(data: any) => debounced(data)}
             onMaximize={(event) => {
-                const dialog = openDialog('http://localhost:3000/asset-picker/field', {ariaLabel: 'test'});
+                const dialog = openDialog('http://localhost:3000/ckeditor/field/maximize', {ariaLabel: 'Cheditor maximize'});
                 console.log('dialog', dialog, event, event.stop);
                 event.stop();
-                return;
+                return false;
             }}
         />)
 }

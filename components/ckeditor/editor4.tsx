@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { CKEDITOR_STAMP, DEFAULT_CONFIG } from './constants';
+import { CKEDITOR_STAMP, DEFAULT_CONFIG, DEFAULT_TOOLBAR } from './constants';
 
 export default function Editor(
     {
@@ -58,7 +58,7 @@ export default function Editor(
         const editor = window.CKEDITOR.replace(name || '', {
             ...DEFAULT_CONFIG,
             enterMode: window.CKEDITOR.ENTER_BR,
-            ...(config.simple ? { toolbar: [['Source', '-', 'Bold', 'Italic', 'Underline'], '/'] } : {})
+            toolbar: config.simple ? [['Source', '-', 'Bold', 'Italic', 'Underline'], '/'] : DEFAULT_TOOLBAR,
         });
 
         if (editor)
