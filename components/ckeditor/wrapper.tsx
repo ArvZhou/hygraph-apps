@@ -25,7 +25,7 @@ function Install() {
     return (
         <Box sx={{ width: '100%', padding: 10 }}>
             <Typography variant="h4" gutterBottom>
-                Welcome use ckeditor app
+                Welcome to use ckeditor app
             </Typography>
             <Typography variant="body1" gutterBottom>
                 After you install the ckeditor application, you can find the corresponding field about ckeditor in schema fields, so that you can use it to edit documents in ckeditor.
