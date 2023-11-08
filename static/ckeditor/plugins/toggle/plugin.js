@@ -4,13 +4,13 @@ CKEDITOR.plugins.add('toggle', {
         editor.addCommand('toggle', {
             exec: function(editor) {
                 var command = editor.getCommand('toggle');
-                if (command.state === CKEDITOR.TRISTATE_DISABLED) {
+                if (command.state === CKEDITOR.TRISTATE_DISABLED || editor.isMaximize) {
                     return;
                 }
                 if (command.state === CKEDITOR.TRISTATE_OFF) {
-                    editor.container.find('.cke_toolbar').getItem(1).addClass('toggle-on');
+                    editor.container.find('#cke_46')?.getItem(0)?.show();
                 } else {
-                    editor.container.find('.cke_toolbar').getItem(1).removeClass('toggle-on');
+                    editor.container.find('#cke_46')?.getItem(0)?.hide();
                 }
                 command.toggleState();
             }

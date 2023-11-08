@@ -111,6 +111,16 @@ export default function Editor(
         }
 
         if (editor) {
+            if (!editor.isMaximize) {
+                requestAnimationFrame(function hideBar() {
+                    try {
+                        editor.container.find('#cke_46')?.getItem(0)?.hide();
+                    } catch (_) {
+                        requestAnimationFrame(hideBar);
+                    }
+                })
+            }
+
             setCkeditor(editor);
             editorRef.current = editor;
             bindEditorEvents();

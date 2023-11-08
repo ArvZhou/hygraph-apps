@@ -26,6 +26,7 @@ function CKEditorFieldVersion4() {
     return (
         <CKEditor4
             value={value || ''}
+            config={{full: true}}
             onChange={(data: any) => debounced(data)}
             onMaximize={onMaximize}
         />)

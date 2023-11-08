@@ -6,9 +6,10 @@ interface EditorInterface {
         find: (arg: string) => {
             getItem: (number) => ({
                 setAttribute: (arg0: string, arg1: string) => void
-                on: (arg0: string, arg1: any) => void
-            })  | null
-        }
+                on: (arg0: string, arg1: any) => void,
+                hide: () => void
+            })  | null,
+        } | null
     },
     getData: () => string,
     setData: (arg: string) => object,
