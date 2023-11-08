@@ -1,19 +1,21 @@
 'use client'
-import { Wrapper, useUiExtensionDialog } from '@hygraph/app-sdk-react';
-import { useLogin } from '../../../components/epic-login';
+import { useCallback } from 'react';
+import { useFieldExtension } from '@hygraph/app-sdk-react';
+import EpicAssetPickerWrapper from '../../../components/epic-asset-picker/wrapper';
+import Button from '../../../components/field/button';
 
+const CompeltePage = () => {
+  const { name, value, onChange, openDialog, extension } = useFieldExtension();
 
-const USER = 'arvin.zhou';
-const PASSWORD = 'arvin.zhou@hatchbetter.com';
-const DOMAIN = 'https://epiccmsv2-website-cisandbox.ol.epicgames.net';
+    return (
+        <Button onClick={() => ''}>{`Add ${name}`}</Button>
+    );
+}
 
-export default function Page() {
-  const { isLogin } = useLogin({ username: USER, password: PASSWORD, domain: DOMAIN });
-  const { onCloseDialog, question } = useUiExtensionDialog();
-
-  if (!isLogin) {
-    return 'Not allowed'
-  }
-
-  return <Wrapper><div onClick={() => onCloseDialog('test')}>Thanks</div></Wrapper>
+export default function Field() {
+    return (
+        <EpicAssetPickerWrapper>
+            <CompeltePage />
+        </EpicAssetPickerWrapper>
+    );
 }

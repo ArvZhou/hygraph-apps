@@ -1,18 +1,25 @@
 'use client'
-import { Box, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import CKEditorWrapper from '../../components/ckeditor/wrapper';
 
-export default function MyCustomField() {
+const CompeltePage = () => {
+    return (
+        <Box sx={{ width: '100%', padding: 10 }}>
+            <Typography variant="h4" gutterBottom>
+                Congratulations
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+                You have successfully installed the ckeditor application, now you can use it in Schema/<b>Add Fields</b>.
+            </Typography>
+        </Box>
+    );
+}
+
+export default function Page() {
     return (
         <CKEditorWrapper>
-            <Box sx={{ width: '100%', padding: 10 }}>
-                <Typography variant="h4" gutterBottom>
-                    Congratulations
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                    You have successfully installed the ckeditor application, now you can use it in Schema/<b>Add Fields</b>.
-                </Typography>
-            </Box>
+            <CompeltePage />
         </CKEditorWrapper>
     );
 }

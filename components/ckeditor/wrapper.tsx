@@ -3,12 +3,10 @@ import {
     Wrapper,
     useApp
 } from '@hygraph/app-sdk-react';
-import { Button, Box, Typography } from '@mui/material';
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import { useCallback, useState } from 'react';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 function Setup({children=<></>}) {
     const { installation } = useApp();
@@ -21,6 +19,12 @@ function Setup({children=<></>}) {
 
 function Install() {
     const { updateInstallation } = useApp();
+    const [loading, setLoading] = useState(false);
+
+    const onSubmit = useCallback(() => {
+        updateInstallation({ status: 'COMPLETED', config: {} });
+        setLoading(true);
+    }, [updateInstallation])
 
     return (
         <Box sx={{ width: '100%', padding: 10 }}>
@@ -30,13 +34,14 @@ function Install() {
             <Typography variant="body1" gutterBottom>
                 After you install the ckeditor application, you can find the corresponding field about ckeditor in schema fields, so that you can use it to edit documents in ckeditor.
             </Typography>
-            <Button
+            <LoadingButton
                 variant="outlined"
                 sx={{ marginTop: 3 }}
-                onClick={() => updateInstallation({ status: 'COMPLETED', config: {} })}
+                onClick={onSubmit}
+                loading={loading}
             >
                 Install ckeditor app
-            </Button>
+            </LoadingButton>
         </Box>
     );
 }

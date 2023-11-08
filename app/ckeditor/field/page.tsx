@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useFieldExtension } from '@hygraph/app-sdk-react';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -32,7 +32,7 @@ function CKEditorFieldVersion4() {
         />)
 }
 
-export default function MyCustomField() {
+export default function Field() {
     return (
         <CKEditorWrapper>
             <CKEditorFieldVersion4 />
