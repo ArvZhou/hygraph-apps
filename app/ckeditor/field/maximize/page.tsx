@@ -1,9 +1,9 @@
 
 'use client'
+import { useState } from 'react';
 import { Wrapper, useUiExtensionDialog } from '@hygraph/app-sdk-react';
 
 import CKEditor4 from '../../../../components/ckeditor/editor4';
-import { useState } from 'react';
 
 function CKEditorFieldVersion4() {
     const { value, onCloseDialog } = useUiExtensionDialog();
