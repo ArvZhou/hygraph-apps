@@ -1,0 +1,294 @@
+[
+    {
+        "path": "/Test Workspace",
+        "file": true,
+        "fileSize": 41973,
+        "createdBy": "jessica.zheng",
+        "created": "2019-09-30T08:14:10.497Z",
+        "name": "PVP_Pumpkin-Launcher_EN-1920x1080-9344ab9c882b9ed61611c44c4780f74252b859c9_374x255_1569831234863.jpg",
+        "width": 374,
+        "thumbnails": {
+            "url": "https://cdn2.unrealengine.com/Test+Workspace%2FPVP_Pumpkin-Launcher_EN-1920x1080-9344ab9c882b9ed61611c44c4780f74252b859c9_374x255_1569831234863-150x102-795e254ed10d98640a966358d712eaec851a7e5a.jpg"
+        },
+        "url": "https://cdn2.unrealengine.com/Test+Workspace%2FPVP_Pumpkin-Launcher_EN-1920x1080-9344ab9c882b9ed61611c44c4780f74252b859c9_374x255_1569831234863-374x255-d7b5067236f34cc37838ae5e4b49d6875a7db10b.jpg",
+        "height": 255
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "jessica.zheng",
+        "created": "2019-09-30T08:15:30.066Z",
+        "name": "New-Folder"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "jessica.zheng",
+        "created": "2019-09-30T08:21:00.525Z",
+        "name": "Test-Folder"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "Iris.Li",
+        "created": "2019-09-30T08:41:41.294Z",
+        "name": "fortnite-game"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "Iris.Li",
+        "created": "2019-11-25T02:47:24.570Z",
+        "name": "spotlights"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "felix.guo",
+        "created": "2020-05-26T06:36:42.396Z",
+        "name": "productv2"
+    },
+    {
+        "path": "/Test Workspace",
+        "file": true,
+        "fileSize": 322461,
+        "createdBy": "Iris.Li",
+        "created": "2020-07-08T09:54:28.932Z",
+        "name": "bags.png",
+        "width": 1920,
+        "thumbnails": {
+            "url": "https://cdn2.unrealengine.com/bags-150x94-420206880.png"
+        },
+        "url": "https://cdn2.unrealengine.com/bags-1920x1204-420206865.png",
+        "height": 1204
+    },
+    {
+        "path": "/Test Workspace",
+        "file": true,
+        "fileSize": 245998,
+        "createdBy": "Iris.Li",
+        "created": "2020-07-13T02:56:28.709Z",
+        "name": "kirby2.gif",
+        "width": null,
+        "url": "https://cdn2.unrealengine.com/kirby2-68ae4a50b27b.gif",
+        "height": null
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "Sophia.Xu",
+        "created": "2020-08-17T08:38:04.129Z",
+        "name": "bullet-train"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "Sophia.Xu",
+        "created": "2020-08-17T09:13:26.794Z",
+        "name": "blog"
+    },
+    {
+        "path": "/Test Workspace",
+        "file": true,
+        "fileSize": 598366,
+        "createdBy": "Sophia.Xu",
+        "created": "2020-08-18T05:40:32.297Z",
+        "name": "skeleton.png",
+        "width": 3840,
+        "thumbnails": {
+            "url": "https://cdn2.unrealengine.com/skeleton-150x84-772923204.png"
+        },
+        "url": "https://cdn2.unrealengine.com/skeleton-3840x2160-772923170.png",
+        "height": 2160
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "Sophia.Xu",
+        "created": "2020-08-18T06:07:38.797Z",
+        "name": "_common_content_type"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "Sophia.Xu",
+        "created": "2020-08-18T06:26:36.078Z",
+        "name": "events"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "Sophia.Xu",
+        "created": "2020-09-22T02:41:27.734Z",
+        "name": "test-cases-folder"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "Sophia.Xu",
+        "created": "2020-11-16T06:20:29.942Z",
+        "name": "get-now"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "jessica.zheng",
+        "created": "2020-12-03T04:30:25.257Z",
+        "name": "test-1"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "Sophia.Xu",
+        "created": "2021-01-18T06:24:44.229Z",
+        "name": "bb"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2021-08-12T07:26:51.534Z",
+        "name": "video"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2021-08-12T07:44:26.331Z",
+        "name": "test-release-31513"
+    },
+    {
+        "path": "/Test Workspace",
+        "file": true,
+        "fileSize": 93052,
+        "createdBy": "sophia.xu",
+        "created": "2021-08-16T02:08:06.499Z",
+        "name": "hand.jpg",
+        "width": 1508,
+        "thumbnails": {
+            "url": "https://cdn2.unrealengine.com/hand-97x150-44577f281e0d.jpg"
+        },
+        "url": "https://cdn2.unrealengine.com/hand-1508x2328-fdf95f7e1a41.jpg",
+        "height": 2328
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2021-09-02T03:52:50.383Z",
+        "name": "solutions"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2021-09-17T06:17:13.856Z",
+        "name": "industry"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2021-09-30T01:08:32.600Z",
+        "name": "news"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2021-10-11T06:55:00.100Z",
+        "name": "test-page"
+    },
+    {
+        "path": "/Test Workspace",
+        "file": true,
+        "fileSize": 2745411,
+        "createdBy": "sophia.xu",
+        "created": "2022-01-10T07:25:20.251Z",
+        "name": "green-girl.png",
+        "width": 6603,
+        "thumbnails": {
+            "url": "https://cdn2.unrealengine.com/green-girl-150x84-3bf8fec6d20e.png"
+        },
+        "url": "https://cdn2.unrealengine.com/green-girl-6603x3714-ec479fb918e6.png",
+        "height": 3714
+    },
+    {
+        "path": "/Test Workspace",
+        "file": true,
+        "fileSize": 543,
+        "createdBy": "sophia.xu",
+        "created": "2022-01-14T01:50:20.843Z",
+        "name": "5-140FGZ246-52.gif",
+        "width": null,
+        "url": "https://cdn2.unrealengine.com/5-140fgz246-52-3c812c9b16b2.gif",
+        "height": null
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2022-01-28T07:16:26.780Z",
+        "name": "test-release-31512"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2022-08-01T02:33:29.337Z",
+        "name": "s3keytest"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2022-08-01T02:53:18.209Z",
+        "name": "abc"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sophia.xu",
+        "created": "2022-08-01T05:41:20.926Z",
+        "name": "test-release-3165"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sandy.chen",
+        "created": "2023-11-20T02:40:28.329Z",
+        "name": "test-release-3-18-0"
+    },
+    {
+        "owner": "common",
+        "path": "/Test Workspace",
+        "file": false,
+        "createdBy": "sandy.chen",
+        "created": "2023-11-20T02:48:52.629Z",
+        "name": "test-large-files"
+    }
+]

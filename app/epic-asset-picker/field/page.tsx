@@ -8,16 +8,16 @@ const CompletePage = () => {
   const { name, value, onChange, openDialog, extension } = useFieldExtension();
 
   const showAssetDialog = useCallback(async () => {
-    const res = await openDialog('/epic-asset-picker/field/assetDialog', {
-      ariaLabel: 'Asset dialog',
-      maxWidth: '1024px',
+    const pickedAsset = await openDialog('/epic-asset-picker/field/assetDialog', {
+      ariaLabel: 'Asset Picker Dialog',
+      maxWidth: `${Math.max(0.6 * window.screen.width, 1280)}px`,
       disableOverlayClick: true,
       value,
       config: extension.config
     });
 
-    if (res) {
-        onChange(res);
+    if (pickedAsset) {
+        onChange(pickedAsset);
     }
 }, [openDialog, onChange, value, extension]);
 
