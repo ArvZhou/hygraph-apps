@@ -1,8 +1,12 @@
 'use client'
 import { useCallback } from 'react';
 import { useFieldExtension } from '@hygraph/app-sdk-react';
-import EpicAssetPickerWrapper from '../../../components/epic-asset-picker/wrapper';
-import Button from '../../../components/field/button';
+import EpicAssetPickerWrapper from '@/components/epic-asset-picker/wrapper';
+import Button from '@/components/field/button';
+import { AssetIcon, DeleteIcon, FileIcon } from '@/components/icons';
+import Image from '@/components/image';
+
+import styles from './index.module.css';
 
 const CompletePage = () => {
   const { name, value, onChange, openDialog, extension } = useFieldExtension();
@@ -17,12 +21,33 @@ const CompletePage = () => {
     });
 
     if (pickedAsset) {
-        onChange(pickedAsset);
+      onChange(pickedAsset);
     }
-}, [openDialog, onChange, value, extension]);
+  }, [openDialog, onChange, value, extension]);
 
   return (
-    <Button onClick={showAssetDialog}>{`Add ${name}`}</Button>
+    <div className={styles.valueWrapper}>
+      {
+        value ? (
+          <div className={styles.value}>
+            <div className={styles.valueName}>
+              <div className={styles.imgWrapper}>
+                <Image
+                  src={value.thumbnails?.url || value.url}
+                  alt='Asset image'
+                  error={<FileIcon />}
+                />
+              </div>
+              <span>{value.name}</span>
+            </div>
+            <div className={styles.valueButton} onClick={() => onChange(null)}>
+              <DeleteIcon />
+            </div>
+          </div>
+        ) : ''
+      }
+      <Button onClick={showAssetDialog} icon={<AssetIcon />}>{`Add ${name}`}</Button>
+    </div>
   );
 }
 

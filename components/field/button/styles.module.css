@@ -45,3 +45,8 @@
     -webkit-box-pack: center;
     justify-content: center;
   }
+
+  .button>svg {
+    fill: rgb(90, 92, 236);
+    margin-right: 10px;
+  }

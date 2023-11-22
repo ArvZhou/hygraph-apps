@@ -7,19 +7,31 @@
 }
 
 .menuItem {
-    display: flex;
-    gap: 3px;
     cursor: pointer;
     align-items: center;
     font-size: 13px;
     user-select: none;
     color: rgb(25, 28, 44);
     line-height: 20px;
+    overflow: hidden;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.menuItem[data-is-open='true'] {
+    color: rgb(90, 92, 236);
 }
 
 .menuItem>svg {
     width: 18px;
     fill: rgb(100, 112, 156);
+    float: left;
+    margin-right: 3px;
+}
+
+.menuItem[data-is-open='true']>svg {
+    fill: rgb(90, 92, 236);
 }
 
 .menu, .menu>ul {

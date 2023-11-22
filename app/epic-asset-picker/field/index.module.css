@@ -1,0 +1,60 @@
+@font-face {
+    font-family: Inter;
+    src: url('/@/font/inter/Inter-Regular.6cc68d6b.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+    unicode-range: U+0025-00FF;
+}
+
+.valueWrapper {
+    background-color: #fff;
+}
+
+.value {
+    box-sizing: border-box;
+    min-width: 0px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 6px;
+    border: 1px solid rgb(240, 242, 250);
+    display: flex;
+    padding: 12px 16px;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    height: 72px;
+    overflow: hidden;
+}
+
+.valueName {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 14px;
+    color: rgb(100, 112, 156);
+}
+
+.imgWrapper {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.valueName img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.valueButton {
+    cursor: pointer;
+}
+
+.valueButton:hover {
+    transform: scale(1.1);
+}

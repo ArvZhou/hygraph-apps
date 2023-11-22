@@ -51,7 +51,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px #f0f0f0 dotted;
+    border: 2px #f0f0f0 dotted;
     cursor: pointer;
 }
 
@@ -61,7 +61,8 @@
     border-style: solid;
 }
 
-.assetDialogListItem>img {
+.assetDialogListItem>img,
+.assetDialogListItem>svg {
     max-width: 100%;
     max-height: 100%;
 }
@@ -116,4 +117,13 @@
 
 .assetDialogFooter>button:nth-child(2):hover {
     border-color: rgb(75, 62, 213);
+}
+
+.emptyWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    height: 450px;
+    flex-direction: column;
 }
