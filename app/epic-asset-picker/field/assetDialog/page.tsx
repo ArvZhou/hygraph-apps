@@ -6,6 +6,7 @@ import { Wrapper, useUiExtensionDialog } from '@hygraph/app-sdk-react';
 import MenuItem, { ItemInterface } from '@/components/epic-asset-picker/menuItem';
 import Image from '@/components/image';
 import { FileIcon, EmptyIcon } from '@/components/icons';
+import { CSM_ENV, CSM_DOMAINS } from '@/constants';
 
 import styles from './index.module.css';
 interface UseUiExtensionDialogConfig {
@@ -22,15 +23,13 @@ export interface Asset {
     url?: string
 }
 
-const domain = '/epiccmsv2-website-cisandbox.ol.epicgames.net';
-
 function AssetDialog() {
     const { value, onCloseDialog, config } = useUiExtensionDialog<any, Record<string, UseUiExtensionDialogConfig>>();
     const [assets, setAssets] = useState<Asset[]>([]);
     const [current, setCurrent] = useState<Asset | null>(null);
 
     const fetchAssets = useCallback(async (path: string) => {
-        const response = await fetch(`https://${domain}/asset/getAssetTree?fullPath=${encodeURIComponent(path)}&isHygraph=true`);
+        const response = await fetch(`https://${CSM_ENV[config.environment as keyof CSM_DOMAINS]}/asset/getAssetTree?fullPath=${encodeURIComponent(path)}&isHygraph=true`);
         const data = await response.json();
 
         return data
