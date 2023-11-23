@@ -158,7 +158,7 @@ function AssetDialog() {
         return (
             <section className={styles.emptyWrapper}>
                 <EmptyIcon />
-                There is no file in this folder !
+                This folder is empty !
             </section>
         )
     }, [currentFile, assets, current?.name, current?.path, loading, openFolder])
