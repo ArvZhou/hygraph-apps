@@ -3,17 +3,20 @@ import { FolderOpen, FolderClose, Loading as LoadingIcon, FileIcon } from '@/com
 
 import styles from './index.module.css';
 
-const MenuItemContext = createContext<{
+const ItemContext = createContext<{
     currentKeys: string[],
     setCurrentKeys: (arg: string[] | ((arg1: string[]) => string[])) => void,
     currentFile: string | null,
     setCurrentFile: (arg: string | null | ((arg1: string | null) => string | null)) => void,
+    activeFolder:  string | null
 }>({
     currentKeys: [],
     setCurrentKeys: () => {new Error('setCurrentKeys is not init!')},
     currentFile: null,
     setCurrentFile: () => {new Error('setCurrentFile is not init!')},
+    activeFolder: null
 });
+
 export interface ItemInterface {
     key?: string,
     keyValue?: string,
@@ -28,7 +31,7 @@ export interface ItemInterface {
     openFile?: () => void
 }
 
-const MenuItem = (
+const Tree = (
     {
         keyValue='root',
         label,
@@ -42,7 +45,9 @@ const MenuItem = (
     const [loading, setLoading] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(auto);
     const [children, setChildren] = useState<ItemInterface[]>([]);
-    const {currentKeys, setCurrentKeys, currentFile, setCurrentFile} = useContext(MenuItemContext);
+    const {currentKeys, setCurrentKeys, currentFile, setCurrentFile, activeFolder} = useContext(ItemContext);
+
+    console.log('activeFolder', activeFolder, 'keyValue', keyValue);
 
     const itemRef= useRef<{
         setChildrenAssets: () => void
@@ -101,6 +106,12 @@ const MenuItem = (
         setIsOpen(currentKeys[loopLevel] === keyValue);
     }, [currentKeys, loopLevel, keyValue])
 
+    useEffect(() => {
+        if (activeFolder && keyValue === activeFolder) {
+            setChildrenAssets();
+        }
+    }, [activeFolder, keyValue, setChildrenAssets])
+
     if (isFile) {
         return <li className={styles.menuItem} onClick={fileClick} data-is-open={currentFile === keyValue}><FileIcon />{label}</li>
     }
@@ -120,7 +131,7 @@ const MenuItem = (
             {
                 children.length ? <ul data-is-open={isOpen} className={styles.menu}>
                     {children.map(({ key, label, getChildren, isFile, openFile }) => (
-                        <MenuItem
+                        <Tree
                             key={key}
                             keyValue={key}
                             label={label}
@@ -138,15 +149,24 @@ const MenuItem = (
     )
 }
 
-const MenuItemWrapper = (props: ItemInterface) => {
+export type TreeRef =  { setActiveFolder: (arg: string) => void } | null
+
+const TreeWrapper = ({treeRef, ...props}: ItemInterface & { treeRef?: MutableRefObject<TreeRef>}) => {
     const [currentKeys, setCurrentKeys] = useState<string[]>(['root']);
     const [currentFile, setCurrentFile] = useState<string | null>(null);
+    const [activeFolder, setActiveFolder] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (treeRef) {
+            treeRef.current = { setActiveFolder }
+        }
+    }, [treeRef])
 
     return (
-        <MenuItemContext.Provider value={{ currentKeys, setCurrentKeys, currentFile, setCurrentFile }}>
-            <MenuItem {...props} />
-        </MenuItemContext.Provider>
+        <ItemContext.Provider value={{ currentKeys, setCurrentKeys, currentFile, setCurrentFile, activeFolder}}>
+            <Tree {...props} />
+        </ItemContext.Provider>
     )
 }
 
-export default MenuItemWrapper
+export default TreeWrapper

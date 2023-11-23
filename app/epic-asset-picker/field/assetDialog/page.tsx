@@ -1,11 +1,11 @@
 
 
 'use client'
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Wrapper, useUiExtensionDialog } from '@hygraph/app-sdk-react';
-import MenuItem, { ItemInterface } from '@/components/epic-asset-picker/menuItem';
+import Tree, { ItemInterface, TreeRef } from '@/components/epic-asset-picker/tree';
 import Image from '@/components/image';
-import { FileIcon, EmptyIcon, Loading as LoadingIcon } from '@/components/icons';
+import { FileIcon, EmptyIcon, Loading as LoadingIcon, Folder } from '@/components/icons';
 import { CSM_ENV, CSM_DOMAINS } from '@/constants';
 
 import styles from './index.module.css';
@@ -24,11 +24,12 @@ export interface Asset {
 }
 
 function AssetDialog() {
-    const { value, onCloseDialog, config } = useUiExtensionDialog<any, Record<string, UseUiExtensionDialogConfig>>();
+    const { onCloseDialog, config } = useUiExtensionDialog<any, Record<string, UseUiExtensionDialogConfig>>();
     const [assets, setAssets] = useState<Asset[]>([]);
     const [current, setCurrent] = useState<Asset | null>(null);
     const [currentFile, setCurrentFile] = useState<Asset | null>(null);
     const [loading, setloading] = useState<boolean>(false);
+    const treeRef = useRef<TreeRef>(null);
 
     const fetchAssets = useCallback(async (path: string) => {
         setloading(true);
@@ -45,11 +46,12 @@ function AssetDialog() {
         return async () => {
             if (!assets?.length) {
                 const data = (await fetchAssets(path)) as Asset[];
+
                 assets = data.sort((a, b) => a.name?.localeCompare(b.name || '') || 0);
             }
             
 
-            setAssets(assets.filter(({ file }) => file));
+            setAssets(assets);
             setCurrentFile(null);
             return assets.map(asset => {
                 const { name, path, file } = asset;
@@ -76,6 +78,10 @@ function AssetDialog() {
         }
         if (current) onCloseDialog(current)
     }, [onCloseDialog, current, currentFile])
+
+    const openFolder = useCallback(({name, path}: Asset) => {
+        treeRef.current?.setActiveFolder?.(name + path);
+    }, [])
 
     useEffect(() => {
         setCurrent(null);
@@ -110,25 +116,40 @@ function AssetDialog() {
             return (
                 <ul className={styles.assetDialogList}>
                     {assets.map((asset) => {
-                        const { name, path, thumbnails, url } = asset;
+                        const { name, path, thumbnails, url, file } = asset;
+
+                        if (file) {
+                            return (
+                                <li
+                                    className={styles.assetDialogListItem}
+                                    key={name + path}
+                                    onClick={() => setCurrent(asset)}
+                                    data-selected={current?.name === name && current?.path === path}
+                                    title={name}
+                                >
+                                    {(thumbnails?.url || url) && (
+                                        <Image
+                                            src={thumbnails?.url || url}
+                                            alt='Asset image'
+                                            error={<FileIcon />}
+                                        />)}
+                                    <span className={styles.assetDialogListItemLabel}>{name}</span>
+                                </li>
+                            )
+                        }
 
                         return (
                             <li
                                 className={styles.assetDialogListItem}
                                 key={name + path}
-                                onClick={() => setCurrent(asset)}
+                                onClick={() => openFolder(asset)}
                                 data-selected={current?.name === name && current?.path === path}
                                 title={name}
                             >
-                                {(thumbnails?.url || url) && (
-                                    <Image
-                                        src={thumbnails?.url || url}
-                                        alt='Asset image'
-                                        error={<FileIcon />}
-                                    />)}
+                                <Folder />
                                 <span className={styles.assetDialogListItemLabel}>{name}</span>
                             </li>
-                        )
+                    )
                     })}
                 </ul>
             )
@@ -140,7 +161,7 @@ function AssetDialog() {
                 There is no file in this folder !
             </section>
         )
-    }, [currentFile, assets, current?.name, current?.path, loading])
+    }, [currentFile, assets, current?.name, current?.path, loading, openFolder])
 
     return (
         <article className={styles.assetDialogArticle}>
@@ -150,7 +171,13 @@ function AssetDialog() {
             <main className={styles.assetDialogMainContent}>
                 <aside>
                     <nav className={styles.assetDialogNav}>
-                        <MenuItem getChildren={firstGetChildren} auto={true} label="Root" isFile={false} />
+                        <Tree
+                            getChildren={firstGetChildren}
+                            auto={true}
+                            label="Root"
+                            isFile={false}
+                            treeRef={treeRef}
+                        />
                     </nav>
                 </aside>
                 <section className={styles.assetDialogItemsWrapper}>
