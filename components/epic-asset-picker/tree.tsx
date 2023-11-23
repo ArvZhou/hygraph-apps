@@ -47,8 +47,6 @@ const Tree = (
     const [children, setChildren] = useState<ItemInterface[]>([]);
     const {currentKeys, setCurrentKeys, currentFile, setCurrentFile, activeFolder} = useContext(ItemContext);
 
-    console.log('activeFolder', activeFolder, 'keyValue', keyValue);
-
     const itemRef= useRef<{
         setChildrenAssets: () => void
     } | null>(null);
