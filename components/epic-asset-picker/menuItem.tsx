@@ -1,14 +1,18 @@
 import { useCallback, useEffect, useRef, useState, createContext, MutableRefObject, useContext } from 'react';
-import { FolderOpen, FolderClose, Loading as LoadingIcon } from '@/components/icons';
+import { FolderOpen, FolderClose, Loading as LoadingIcon, FileIcon } from '@/components/icons';
 
 import styles from './index.module.css';
 
 const MenuItemContext = createContext<{
     currentKeys: string[],
-    setCurrentKeys: (arg: string[] | ((arg1: string[]) => string[])) => void
+    setCurrentKeys: (arg: string[] | ((arg1: string[]) => string[])) => void,
+    currentFile: string | null,
+    setCurrentFile: (arg: string | null | ((arg1: string | null) => string | null)) => void,
 }>({
     currentKeys: [],
-    setCurrentKeys: arg => {new Error('setCurrentKeys is not init!')}
+    setCurrentKeys: () => {new Error('setCurrentKeys is not init!')},
+    currentFile: null,
+    setCurrentFile: () => {new Error('setCurrentFile is not init!')},
 });
 export interface ItemInterface {
     key?: string,
@@ -19,7 +23,9 @@ export interface ItemInterface {
     parent?: MutableRefObject<{
         setChildrenAssets: () => void;
     } | null>,
-    loopLevel?: number
+    loopLevel?: number,
+    isFile: boolean,
+    openFile?: () => void
 }
 
 const MenuItem = (
@@ -29,12 +35,14 @@ const MenuItem = (
         getChildren,
         auto,
         parent,
-        loopLevel=0
+        loopLevel=0,
+        isFile,
+        openFile
     }: ItemInterface) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(auto);
     const [children, setChildren] = useState<ItemInterface[]>([]);
-    const {currentKeys, setCurrentKeys} = useContext(MenuItemContext);
+    const {currentKeys, setCurrentKeys, currentFile, setCurrentFile} = useContext(MenuItemContext);
 
     const itemRef= useRef<{
         setChildrenAssets: () => void
@@ -64,6 +72,7 @@ const MenuItem = (
     }, [getChildren, addCurrentKey])
 
     const toggleChildren = useCallback(() => {
+        setCurrentFile(null);
         if (isOpen && parent?.current?.setChildrenAssets) {
             parent.current.setChildrenAssets();
             removeCurrentKey();
@@ -72,7 +81,13 @@ const MenuItem = (
         }
 
         setChildrenAssets();
-    }, [setChildrenAssets, parent, isOpen, removeCurrentKey])
+    }, [setChildrenAssets, parent, isOpen, removeCurrentKey, setCurrentFile])
+
+    const fileClick = useCallback(() => {
+        openFile?.();
+        setCurrentFile(keyValue);
+        removeCurrentKey();
+    }, [openFile, keyValue, setCurrentFile, removeCurrentKey])
 
     useEffect(() => {
         auto && setChildrenAssets();
@@ -85,6 +100,10 @@ const MenuItem = (
     useEffect(() => {
         setIsOpen(currentKeys[loopLevel] === keyValue);
     }, [currentKeys, loopLevel, keyValue])
+
+    if (isFile) {
+        return <li className={styles.menuItem} onClick={fileClick} data-is-open={currentFile === keyValue}><FileIcon />{label}</li>
+    }
 
     return (
         <>
@@ -100,7 +119,7 @@ const MenuItem = (
             { loading ? <div className={styles.menuLoading}><LoadingIcon /></div> : ''}
             {
                 children.length ? <ul data-is-open={isOpen} className={styles.menu}>
-                    {children.map(({ key, label, getChildren }) => (
+                    {children.map(({ key, label, getChildren, isFile, openFile }) => (
                         <MenuItem
                             key={key}
                             keyValue={key}
@@ -109,6 +128,8 @@ const MenuItem = (
                             auto={false}
                             parent={itemRef}
                             loopLevel={loopLevel + 1}
+                            isFile={isFile}
+                            openFile={openFile}
                         />
                     ))}
                 </ul> : ''
@@ -119,9 +140,10 @@ const MenuItem = (
 
 const MenuItemWrapper = (props: ItemInterface) => {
     const [currentKeys, setCurrentKeys] = useState<string[]>(['root']);
+    const [currentFile, setCurrentFile] = useState<string | null>(null);
 
     return (
-        <MenuItemContext.Provider value={{ currentKeys, setCurrentKeys }}>
+        <MenuItemContext.Provider value={{ currentKeys, setCurrentKeys, currentFile, setCurrentFile }}>
             <MenuItem {...props} />
         </MenuItemContext.Provider>
     )

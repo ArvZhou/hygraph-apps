@@ -33,6 +33,20 @@
     padding: 10px;
 }
 
+.loadingWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadingWrapper>svg {
+    width: 80px;
+    height: 80px;
+    fill:rgb(75, 62, 213);
+}
+
 .assetDialogItemsWrapper {
     flex: 1;
 }
@@ -53,6 +67,14 @@
     justify-content: center;
     border: 2px #f0f0f0 dotted;
     cursor: pointer;
+}
+
+.assetDialogListItemSingle {
+    width: 300px;
+    height: 300px;
+    border-color: rgb(75, 62, 213);
+    border-style: solid;
+    margin: 100px auto 0;
 }
 
 .assetDialogListItem[data-selected="true"],
@@ -109,6 +131,10 @@
     color: #333;
 }
 
+.assetDialogFooter>button:nth-child(1):hover {
+    color: rgb(75, 62, 213);
+}
+
 .assetDialogFooter>button:nth-child(2) {
     border: 1px #ccc solid;
     border-radius: 3px;
@@ -117,6 +143,12 @@
 
 .assetDialogFooter>button:nth-child(2):hover {
     border-color: rgb(75, 62, 213);
+}
+
+.assetDialogFooter>button:nth-child(2):disabled {
+    border-color: #eee;
+    background-color: #eee;
+    color: #ccc;
 }
 
 .emptyWrapper {
