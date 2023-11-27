@@ -46,7 +46,7 @@ const CompletePage = () => {
           </div>
         ) : ''
       }
-      <Button onClick={showAssetDialog} icon={<AssetIcon />}>{`Add ${name}`}</Button>
+      <Button onClick={showAssetDialog} icon={<AssetIcon />}>{`${value ? 'Replace' : 'Add'} ${name}`}</Button>
     </div>
   );
 }
