@@ -35,7 +35,14 @@ interface EditorPropsInterface {
     onChange:(data: string) => void,
     onMaximize?: (event: { stop: () => void}, data: string) => void,
     onFocus?: () => void,
-    isMaximize?: boolean
+    isMaximize?: boolean,
+    chooseImage?: () => Promise<{
+        src: string,
+        alt: string,
+        title: string,
+        width: number,
+        height: number
+    }>
 }
 
 interface EditorConfigInterface {

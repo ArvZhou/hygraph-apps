@@ -10,7 +10,8 @@ export default function Editor(
         onChange,
         onMaximize=(data) => data,
         onFocus=() => void 0,
-        isMaximize=false
+        isMaximize=false,
+        chooseImage
     } : EditorPropsInterface
 ) {
     const editorRef: { current: EditorInterface | null } = useRef(null);
@@ -54,6 +55,17 @@ export default function Editor(
         }
     }
 
+    const setImageHtml = useCallback(async (editor: EditorInterface) => {
+        if (!chooseImage) return;
+        const image = await chooseImage();
+
+        if (!image) return;
+    
+        const {src, alt, height, width, title} = image;
+
+        editor.insertHtml(`<img src="${src}" alt="${alt}" title="${title}" height=${height} width=${width} />`)
+    }, [chooseImage]);
+
     const bindEditorEvents = useCallback(() => {
         const editor = editorRef.current;
 
@@ -84,7 +96,16 @@ export default function Editor(
                 if (!editing) editor.setMode('source');
             });
         });
-    }, [onChange, onMaximize, config, onFocus])
+        editor.on('instanceReady', () => {
+            if (chooseImage) {
+                const imageBtn = editor.container?.find('.cke_button__image')?.getItem(0);
+                if (imageBtn) {
+                    imageBtn.setAttribute('onclick', '');
+                    imageBtn.on('click', () => setImageHtml(editor));
+                }
+            }
+        })
+    }, [onChange, onMaximize, config, onFocus, chooseImage, setImageHtml])
 
     const initEditor = useCallback(() => {
         window.CKEDITOR.timestamp = CKEDITOR_STAMP;

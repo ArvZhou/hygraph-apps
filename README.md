@@ -20,6 +20,7 @@ Open [App Framework](https://hygraph.com/docs/app-framework/first-steps/overview
 
 ### App Detail
 
-| App Name | App Url | Element Url
-| ---- | --- | --- ｜
-｜ Ckeditor | [Domian]//hygraph-apps/ckeditor | [Domian]//hygraph-apps/ckeditor/field |
+| App Name | App Url | Element Url |
+| ----  | --- | ---  |
+| Ckeditor | {Domian}/ckeditor | {Domian}/ckeditor/field |
+| Epic Asset Picker | {Domian}/epic-asset-picker | {Domian}/epic-asset-picker/field |

@@ -3,11 +3,11 @@ import { useCallback } from 'react';
 import { useFieldExtension } from '@hygraph/app-sdk-react';
 import { useDebouncedCallback } from 'use-debounce';
 
-import CKEditorWrapper from '../../../components/ckeditor/wrapper';
-import CKEditor4 from '../../../components/ckeditor/editor4';
+import CKEditorWrapper from '@/components/ckeditor/wrapper';
+import CKEditor4 from '@/components/ckeditor/editor4';
 
 function CKEditorFieldVersion4() {
-    const { value, onChange, openDialog } = useFieldExtension();
+    const { value, onChange, openDialog, extension } = useFieldExtension();
     const debounced = useDebouncedCallback(onChange, 500);
 
     const onMaximize = useCallback(async (_:any, data: string) => {
@@ -23,12 +23,27 @@ function CKEditorFieldVersion4() {
         }
     }, [openDialog, onChange]);
 
+    const chooseImage = useCallback(async () => {
+        const { url, name, width, height } = await openDialog('/epic-asset-picker/field/assetDialog', {
+            ariaLabel: 'Asset Picker Dialog',
+            maxWidth: `${Math.max(0.6 * window.screen.width, 1280)}px`,
+            disableOverlayClick: true,
+            config: {
+                ...extension.config,
+                image: true
+            }
+          });
+
+        return { src: url, alt: name, width, height, title: name }
+    }, [openDialog, extension.config])
+
     return (
         <CKEditor4
             value={value || ''}
             config={{full: true}}
             onChange={(data: any) => debounced(data)}
             onMaximize={onMaximize}
+            chooseImage={chooseImage}
         />)
 }
 

@@ -1,5 +1,3 @@
-
-
 'use client'
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Wrapper, useUiExtensionDialog } from '@hygraph/app-sdk-react';
@@ -7,11 +5,13 @@ import Tree, { ItemInterface, TreeRef } from '@/components/epic-asset-picker/tre
 import Image from '@/components/image';
 import { FileIcon, EmptyIcon, Loading as LoadingIcon, Folder } from '@/components/icons';
 import { CSM_ENV, CSM_DOMAINS } from '@/constants';
+import { isImageFile } from '@/utils';
 
 import styles from './index.module.css';
 interface UseUiExtensionDialogConfig {
     workspace: string,
-    environment: string
+    environment: string,
+    image?: boolean
 }
 export interface Asset {
     path: string,
@@ -55,6 +55,7 @@ function AssetDialog() {
             setCurrentFile(null);
             return assets.map(asset => {
                 const { name, path, file } = asset;
+                const assetCanBeChoose = isImageFile(name || '') || !config.image;
 
                 return {
                     key: name + path,
@@ -62,11 +63,11 @@ function AssetDialog() {
                     label: name,
                     getChildren: handleChildren(`${path}/${name}`),
                     isFile: !!file,
-                    openFile: () => setCurrentFile(asset)
+                    openFile: assetCanBeChoose ? () => setCurrentFile(asset) : null
                 }
             })
         }
-    }, [fetchAssets])
+    }, [fetchAssets, config.image])
 
     const firstGetChildren = useMemo(() => handleChildren(`/${config.workspace}`), [handleChildren, config.workspace])
 
@@ -117,14 +118,16 @@ function AssetDialog() {
                 <ul className={styles.assetDialogList}>
                     {assets.map((asset) => {
                         const { name, path, thumbnails, url, file } = asset;
+                        const assetCanBeChoose = isImageFile(name || '') || !config.image;
 
                         if (file) {
                             return (
                                 <li
                                     className={styles.assetDialogListItem}
                                     key={name + path}
-                                    onClick={() => setCurrent(asset)}
+                                    onClick={assetCanBeChoose ? () => setCurrent(asset) : () => void 0}
                                     data-selected={current?.name === name && current?.path === path}
+                                    data-disabled={!assetCanBeChoose}
                                     title={name}
                                 >
                                     {(thumbnails?.url || url) && (
@@ -161,7 +164,7 @@ function AssetDialog() {
                 This folder is empty !
             </section>
         )
-    }, [currentFile, assets, current?.name, current?.path, loading, openFolder])
+    }, [currentFile, assets, current?.name, current?.path, loading, openFolder, config.image])
 
     return (
         <article className={styles.assetDialogArticle}>

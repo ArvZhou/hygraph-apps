@@ -1,6 +1,6 @@
 @font-face {
     font-family: Inter;
-    src: url('/@/font/inter/Inter-Regular.6cc68d6b.woff2') format('woff2');
+    src: url('/static/font/inter/Inter-Regular.6cc68d6b.woff2') format('woff2');
     font-style: normal;
     font-weight: normal;
     unicode-range: U+0025-00FF;
@@ -8,6 +8,7 @@
 
 .valueWrapper {
     background-color: #fff;
+    font-family: 'Inter';
 }
 
 .value {
@@ -24,7 +25,7 @@
     -webkit-box-align: center;
     align-items: center;
     margin-bottom: 8px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     height: 72px;
     overflow: hidden;
@@ -32,7 +33,7 @@
 
 .valueName {
     display: flex;
-    gap: 12px;
+    gap: 13px;
     align-items: center;
     font-size: 14px;
     color: rgb(100, 112, 156);

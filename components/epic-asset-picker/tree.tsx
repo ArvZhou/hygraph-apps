@@ -28,7 +28,7 @@ export interface ItemInterface {
     } | null>,
     loopLevel?: number,
     isFile: boolean,
-    openFile?: () => void
+    openFile?: (() => void) | null
 }
 
 const Tree = (
@@ -87,7 +87,11 @@ const Tree = (
     }, [setChildrenAssets, parent, isOpen, removeCurrentKey, setCurrentFile])
 
     const fileClick = useCallback(() => {
-        openFile?.();
+        if (!openFile) {
+            return
+        }
+
+        openFile();
         setCurrentFile(keyValue);
         removeCurrentKey();
     }, [openFile, keyValue, setCurrentFile, removeCurrentKey])
@@ -111,7 +115,16 @@ const Tree = (
     }, [activeFolder, keyValue, setChildrenAssets])
 
     if (isFile) {
-        return <li className={styles.menuItem} onClick={fileClick} data-is-open={currentFile === keyValue}><FileIcon />{label}</li>
+        return (
+            <li
+                className={styles.menuItem}
+                onClick={fileClick}
+                data-is-open={currentFile === keyValue}
+                data-disabled={!openFile}
+            >
+                <FileIcon />{label}
+            </li>
+        )
     }
 
     return (

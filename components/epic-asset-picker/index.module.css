@@ -23,6 +23,10 @@
     color: rgb(90, 92, 236);
 }
 
+.menuItem[data-disabled='true'] {
+    color: #c4c1c1;
+}
+
 .menuItem>svg {
     width: 18px;
     height: 18px;
