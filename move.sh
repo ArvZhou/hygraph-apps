@@ -16,3 +16,4 @@ git add .
 message="feat: code update$(date "+%Y%m%d-%H%M%S")"
 echo "${message}"
 git commit -m "${message}"
+git push
