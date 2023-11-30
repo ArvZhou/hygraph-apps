@@ -1,3 +1,5 @@
+import { EditorConfigInterface } from "./editor4";
+
 export const CKEDITOR_STAMP: number = 20231108;
 
 export const DEFAULT_CONFIG: EditorConfigInterface = {

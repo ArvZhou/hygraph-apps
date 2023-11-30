@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { CKEDITOR_STAMP, DEFAULT_CONFIG, DEFAULT_TOOLBAR } from './constants';
 
-interface EditorConfigInterface {
+export interface EditorConfigInterface {
     language?: string,
     entities?: boolean,
     baseFloatZIndex?: number,
@@ -13,7 +13,7 @@ interface EditorConfigInterface {
     height?: string | number,
     focusEnlarge?: boolean
 }
-interface EditorPropsInterface {
+export interface EditorPropsInterface {
     name?: string,
     placeholder?: string,
     value: string,
