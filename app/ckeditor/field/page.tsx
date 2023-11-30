@@ -24,7 +24,7 @@ function CKEditorFieldVersion4() {
     }, [openDialog, onChange]);
 
     const chooseImage = useCallback(async () => {
-        const { url, name, width, height } = await openDialog('/epic-asset-picker/field/assetDialog', {
+        const image = await openDialog('/epic-asset-picker/field/assetDialog', {
             ariaLabel: 'Asset Picker Dialog',
             maxWidth: `${Math.max(0.6 * window.screen.width, 1280)}px`,
             disableOverlayClick: true,
@@ -33,6 +33,12 @@ function CKEditorFieldVersion4() {
                 image: true
             }
           });
+
+        if (!image) {
+            return null;
+        }
+
+        const { url, name, width, height } = image;
 
         return { src: url, alt: name, width, height, title: name }
     }, [openDialog, extension.config])

@@ -24,3 +24,11 @@ Open [App Framework](https://hygraph.com/docs/app-framework/first-steps/overview
 | ----  | --- | ---  |
 | Ckeditor | {Domian}/ckeditor | {Domian}/ckeditor/field |
 | Epic Asset Picker | {Domian}/epic-asset-picker | {Domian}/epic-asset-picker/field |
+
+
+### Build
+
+```bash
+npm run build
+```
+After building, an out folder will be generated, which can be used as a static service.
