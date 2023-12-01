@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Wrapper, useUiExtensionDialog } from '@hygraph/app-sdk-react';
 
-import { AssetContent, Asset } from '@/app/epic-asset-picker/field/assetDialog/page';
+import AssetContent, { Asset } from '@/app/epic-asset-picker/field/assetDialog/AssetContent';
 import { LFArrow } from '@/components/icons';
 import styles from './index.module.css';
 
@@ -57,8 +57,6 @@ function SwipeDialog() {
                 slider.style.left=`${pos}px`;
             }
         };
-        // $(window.document).on('mousemove', handler).one('mouseup', () => $(window.document).off('mousemove', handler));
-        console.log('===> addEventListener');
         document.addEventListener('mousemove', handler);
         document.addEventListener('mouseup', () => {
             document.removeEventListener('mousemove', handler);
@@ -84,6 +82,15 @@ function SwipeDialog() {
 
         setCurrentAssetdialog(null);
     }, [currentAssetDialog])
+
+    const onOk = useCallback(() => {
+        if (leftAsset && rightAsset) {
+            onCloseDialog([{ src: leftAsset.url, alt: leftAsset.name }, { src: rightAsset.url, alt: rightAsset.name }]);
+
+            return;
+        }
+        onCloseDialog(null);
+    }, [onCloseDialog, leftAsset, rightAsset])
 
     return (
         <div className={styles.dialogWrapper} ref={dialogRef}>
@@ -113,7 +120,7 @@ function SwipeDialog() {
             </div>
             <footer className={styles.dialogFooter}>
                 <button onClick={() => onCloseDialog(null)}>Cancel</button>
-                <button onClick={() => onCloseDialog([leftAsset, rightAsset])} disabled={!leftAsset || !rightAsset}>Select</button>
+                <button onClick={onOk} disabled={!leftAsset || !rightAsset}>Ok</button>
             </footer>
             {currentAssetDialog && <AssetPicker onChange={setAsset} />}
         </div>

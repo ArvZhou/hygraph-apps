@@ -31,11 +31,8 @@ export interface EditorPropsInterface {
     } | null>,
     setSwipe?: () => Promise<{
         src: string,
-        alt: string,
-        title: string,
-        width: number,
-        height: number
-    } | null>
+        alt: string
+    }[] | null>
 }
 
 export default function Editor(
@@ -124,8 +121,9 @@ export default function Editor(
         const reslut = await setSwipe();
 
         if (!reslut) return;
+        const imgs = reslut.map(({src, alt}) => `<img class="before-after-slider-1" width="auto" height="auto" alt="${alt}" src="${src}"/>`)
 
-        console.log('swipe reslut', reslut);
+        insertHtml(`<div class="juxtapose">${imgs.join('')}</div>\n`, editor);
 
     }, [setSwipe])
 

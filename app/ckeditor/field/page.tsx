@@ -43,8 +43,8 @@ function CKEditorFieldVersion4() {
         return { src: url, alt: name, width, height, title: name }
     }, [openDialog, extension.config])
 
-    const setSwipe = useCallback(async () => {
-        return await openDialog('/ckeditor/field/swipe', {
+    const setSwipe = useCallback(() => {
+        return openDialog('/ckeditor/field/swipe', {
             ariaLabel: 'Swipe Dialog',
             maxWidth: `${Math.max(0.6 * window.screen.width, 1280)}px`,
             disableOverlayClick: true,
