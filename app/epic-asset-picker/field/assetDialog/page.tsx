@@ -8,7 +8,7 @@ import { CSM_ENV, CSM_DOMAINS } from '@/constants';
 import { isImageFile } from '@/utils';
 
 import styles from './index.module.css';
-interface UseUiExtensionDialogConfig {
+export interface AssetDialogConfig {
     workspace: string,
     environment: string,
     image?: boolean
@@ -23,8 +23,9 @@ export interface Asset {
     url?: string
 }
 
-function AssetDialog() {
-    const { onCloseDialog, config } = useUiExtensionDialog<any, Record<string, UseUiExtensionDialogConfig>>();
+export function AssetContent({onChange, environment, workspace, image}: {
+    onChange: (arg: Asset | null) => void
+} & AssetDialogConfig) {
     const [assets, setAssets] = useState<Asset[]>([]);
     const [current, setCurrent] = useState<Asset | null>(null);
     const [currentFile, setCurrentFile] = useState<Asset | null>(null);
@@ -33,12 +34,12 @@ function AssetDialog() {
 
     const fetchAssets = useCallback(async (path: string) => {
         setloading(true);
-        const response = await fetch(`https://${CSM_ENV[config.environment as keyof CSM_DOMAINS]}/asset/getAssetTree?fullPath=${encodeURIComponent(path)}&isHygraph=true`);
+        const response = await fetch(`https://${CSM_ENV[environment as keyof CSM_DOMAINS]}/asset/getAssetTree?fullPath=${encodeURIComponent(path)}&isHygraph=true`);
         const data = await response.json();
         setloading(false);
 
         return data
-    }, [config.environment])
+    }, [environment])
 
     const handleChildren: (path: string) => () => Promise<ItemInterface[]> = useCallback((path) => {
         let assets: Asset[] = [];
@@ -55,7 +56,7 @@ function AssetDialog() {
             setCurrentFile(null);
             return assets.map(asset => {
                 const { name, path, file } = asset;
-                const assetCanBeChoose = isImageFile(name || '') || !config.image;
+                const assetCanBeChoose = isImageFile(name || '') || !image;
 
                 return {
                     key: name + path,
@@ -67,18 +68,18 @@ function AssetDialog() {
                 }
             })
         }
-    }, [fetchAssets, config.image])
+    }, [fetchAssets, image])
 
-    const firstGetChildren = useMemo(() => handleChildren(`/${config.workspace}`), [handleChildren, config.workspace])
+    const getRootChildren = useMemo(() => handleChildren(`/${workspace}`), [handleChildren, workspace])
 
     const select = useCallback(() => {
         if (currentFile) {
-            onCloseDialog(currentFile);
+            onChange(currentFile);
 
             return;
         }
-        if (current) onCloseDialog(current)
-    }, [onCloseDialog, current, currentFile])
+        if (current) onChange(current)
+    }, [onChange, current, currentFile])
 
     const openFolder = useCallback(({name, path}: Asset) => {
         treeRef.current?.setActiveFolder?.(name + path);
@@ -118,7 +119,7 @@ function AssetDialog() {
                 <ul className={styles.assetDialogList}>
                     {assets.map((asset) => {
                         const { name, path, thumbnails, url, file } = asset;
-                        const assetCanBeChoose = isImageFile(name || '') || !config.image;
+                        const assetCanBeChoose = isImageFile(name || '') || !image;
 
                         if (file) {
                             return (
@@ -164,7 +165,7 @@ function AssetDialog() {
                 This folder is empty !
             </section>
         )
-    }, [currentFile, assets, current?.name, current?.path, loading, openFolder, config.image])
+    }, [currentFile, assets, current?.name, current?.path, loading, openFolder, image])
 
     return (
         <article className={styles.assetDialogArticle}>
@@ -175,7 +176,7 @@ function AssetDialog() {
                 <aside>
                     <nav className={styles.assetDialogNav}>
                         <Tree
-                            getChildren={firstGetChildren}
+                            getChildren={getRootChildren}
                             auto={true}
                             label="Root"
                             isFile={false}
@@ -188,11 +189,17 @@ function AssetDialog() {
                 </section>
             </main>
             <footer className={styles.assetDialogFooter}>
-                <button onClick={() => onCloseDialog(null)}>Cancel</button>
+                <button onClick={() => onChange(null)}>Cancel</button>
                 <button onClick={select} disabled={!currentFile && !current}>Select</button>
             </footer>
         </article>
     )
+}
+
+function AssetDialog() {
+    const { onCloseDialog, config } = useUiExtensionDialog<any, Record<string, AssetDialogConfig>>();
+
+    return <AssetContent onChange={onCloseDialog} {...config} />
 }
 
 export default function Field() {

@@ -10,7 +10,7 @@ function CKEditorFieldVersion4() {
     const { value, onChange, openDialog, extension } = useFieldExtension();
     const debounced = useDebouncedCallback(onChange, 500);
 
-    const onMaximize = useCallback(async (_:any, data: string) => {
+    const onMaximize = useCallback(async (_: any, data: string) => {
         const res = await openDialog('/ckeditor/field/maximize', {
             ariaLabel: 'Cheditor maximize',
             maxWidth: '1024px',
@@ -32,7 +32,7 @@ function CKEditorFieldVersion4() {
                 ...extension.config,
                 image: true
             }
-          });
+        });
 
         if (!image) {
             return null;
@@ -43,13 +43,23 @@ function CKEditorFieldVersion4() {
         return { src: url, alt: name, width, height, title: name }
     }, [openDialog, extension.config])
 
+    const setSwipe = useCallback(async () => {
+        return await openDialog('/ckeditor/field/swipe', {
+            ariaLabel: 'Swipe Dialog',
+            maxWidth: `${Math.max(0.6 * window.screen.width, 1280)}px`,
+            disableOverlayClick: true,
+            config: extension.config
+        });
+    }, [extension.config, openDialog])
+
     return (
         <CKEditor4
             value={value || ''}
-            config={{full: true}}
+            config={{ full: true }}
             onChange={(data: any) => debounced(data)}
             onMaximize={onMaximize}
             chooseImage={chooseImage}
+            setSwipe={setSwipe}
         />)
 }
 

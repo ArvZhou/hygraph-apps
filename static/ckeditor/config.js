@@ -16,7 +16,7 @@ CKEDITOR.editorConfig = function (config) {
                 "Image",
                 "Youtube",
                 "Html5video",
-                // "Swipe",
+                "Swipe",
                 "FontSize",
                 "Bold",
                 "Italic",

@@ -28,6 +28,13 @@ export interface EditorPropsInterface {
         title: string,
         width: number,
         height: number
+    } | null>,
+    setSwipe?: () => Promise<{
+        src: string,
+        alt: string,
+        title: string,
+        width: number,
+        height: number
     } | null>
 }
 
@@ -41,7 +48,8 @@ export default function Editor(
         onMaximize=(data) => data,
         onFocus=() => void 0,
         isMaximize=false,
-        chooseImage
+        chooseImage,
+        setSwipe
     } : EditorPropsInterface
 ) {
     const editorRef: { current: EditorInterface | null } = useRef(null);
@@ -85,16 +93,41 @@ export default function Editor(
         }
     }
 
+    const insertHtml = (html: string, editor: EditorInterface) => {
+        const sel = editor.getSelection();
+        let range = sel?.getRanges()[0];
+        if (!range) {
+            range = editor.createRange();
+            range.moveToPosition(range.root, window.CKEDITOR.POSITION_BEFORE_END);
+            sel?.selectRanges([range]);
+        }
+        editor.insertHtml(html, 'html', range);
+    }
+
     const setImageHtml = useCallback(async (editor: EditorInterface) => {
-        if (!chooseImage) return;
+        const command = editor.getCommand('source');
+        if (command.state === window.CKEDITOR.TRISTATE_ON || !chooseImage) return;
+
         const image = await chooseImage();
 
         if (!image) return;
     
         const {src, alt, height, width, title} = image;
 
-        editor.insertHtml(`<img src="${src}" alt="${alt}" title="${title}" height=${height} width=${width} />`)
+        insertHtml(`<img src="${src}" alt="${alt}" title="${title}" height=${height} width=${width} />`, editor)
     }, [chooseImage]);
+
+    const setSwipeHtml = useCallback(async (editor: EditorInterface) => {
+        const command = editor.getCommand('source');
+        if (command.state === window.CKEDITOR.TRISTATE_ON || !setSwipe) return;
+
+        const reslut = await setSwipe();
+
+        if (!reslut) return;
+
+        console.log('swipe reslut', reslut);
+
+    }, [setSwipe])
 
     const bindEditorEvents = useCallback(() => {
         const editor = editorRef.current;
@@ -134,8 +167,15 @@ export default function Editor(
                     imageBtn.on('click', () => setImageHtml(editor));
                 }
             }
+            if (setSwipe) {
+                const swipeBtn = editor.container?.find('.cke_button__swipe')?.getItem(0);
+                if (swipeBtn) {
+                    swipeBtn.setAttribute('onclick', '');
+                    swipeBtn.on('click', () => setSwipeHtml(editor));
+                }
+            }
         })
-    }, [onChange, onMaximize, config, onFocus, chooseImage, setImageHtml])
+    }, [onChange, onMaximize, config, onFocus, chooseImage, setImageHtml, setSwipe, setSwipeHtml])
 
     const initEditor = useCallback(() => {
         window.CKEDITOR.timestamp = CKEDITOR_STAMP;

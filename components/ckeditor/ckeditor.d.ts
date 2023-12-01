@@ -20,9 +20,13 @@ interface EditorInterface {
     },
     lang: any,
     getSelection: () => null | {
-        getNative: () => any
+        getNative: () => any,
+        getRanges: () => any[],
+        selectRanges: (arg: any) => void
     },
-    insertHtml: (arg: string) => void,
+    insertHtml: (arg: string, arg1?: string, arg2?: any) => void,
     setMode: (arg0: string, arg1?: any) => void,
+    createRange: () => any,
+    getCommand: (arg: string) => ({state: string}),
     isMaximize?: boolean
 }
