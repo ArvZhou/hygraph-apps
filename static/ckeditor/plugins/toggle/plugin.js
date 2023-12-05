@@ -7,10 +7,13 @@ CKEDITOR.plugins.add('toggle', {
                 if (command.state === CKEDITOR.TRISTATE_DISABLED || editor.isMaximize) {
                     return;
                 }
+                const toolbars = editor.container.find('.cke_toolbar_last');
+                const lasttoolbar = toolbars?.getItem(toolbars.count() - 1);
+
                 if (command.state === CKEDITOR.TRISTATE_OFF) {
-                    editor.container.find('#cke_46')?.getItem(0)?.show();
+                    lasttoolbar?.show();
                 } else {
-                    editor.container.find('#cke_46')?.getItem(0)?.hide();
+                    lasttoolbar?.hide();
                 }
                 command.toggleState();
             }

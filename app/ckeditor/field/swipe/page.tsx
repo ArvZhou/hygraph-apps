@@ -35,42 +35,24 @@ function SwipeDialog() {
     }, [config.environment, config.workspace])
 
     const onSliderMouseDown = useCallback(() => {
-        const cover = dialogRef.current?.querySelector('[data-preview-cover]') as HTMLElement;
-        const slider = dialogRef.current?.querySelector('[data-preview-slider]') as HTMLElement;
-        const previewBox = dialogRef.current?.querySelector('[data-preview-box]') as HTMLElement;
-        const min = previewBox.offsetLeft;
-        const max = previewBox.clientWidth;
+        const dialogEle = dialogRef.current as HTMLElement;
+        const [cover, slider, box] = ['cover', 'slider', 'box'].map(name => dialogEle.querySelector(`[data-preview-${name}]`) as HTMLElement);
+        const [min, max] = [box.offsetLeft, box.clientWidth];
 
         const handler = (e: MouseEvent) => {
-            let pos = e.clientX - min;
-            if (pos < -1) {
-                pos = -1;
-            } else if (pos > max) {
-                pos = max;
-            }
+            const pos = Math.min(Math.max(e.clientX - min, -1), max);
 
-            if (cover?.style) {
-                cover.style.width=`${pos}px`;
-            }
-
-            if (slider?.style) {
-                slider.style.left=`${pos}px`;
-            }
+            cover.style.width=`${pos}px`;
+            slider.style.left=`${pos}px`;
         };
         document.addEventListener('mousemove', handler);
-        document.addEventListener('mouseup', () => {
-            document.removeEventListener('mousemove', handler);
-        }, {
-            once: true
-        })
+        document.addEventListener('mouseup', () => document.removeEventListener('mousemove', handler), { once: true })
     }, [])
 
     const setAsset = useCallback((asset: Asset | null) => {
-        if (!asset) {
-            setCurrentAssetdialog(null);
+        setCurrentAssetdialog(null);
 
-            return;
-        }
+        if (!asset) return;
 
         if (currentAssetDialog === 'left') {
             setLeftAsset(asset);
@@ -79,8 +61,6 @@ function SwipeDialog() {
         if (currentAssetDialog === 'right') {
             setRightAsset(asset);
         }
-
-        setCurrentAssetdialog(null);
     }, [currentAssetDialog])
 
     const onOk = useCallback(() => {

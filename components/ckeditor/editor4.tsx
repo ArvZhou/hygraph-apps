@@ -203,7 +203,9 @@ export default function Editor(
             if (!editor.isMaximize) {
                 requestAnimationFrame(function hideBar() {
                     try {
-                        editor.container.find('#cke_46')?.getItem(0)?.hide();
+                        const toolbars = editor.container.find('.cke_toolbar_last');
+
+                        toolbars?.getItem(toolbars.count() - 1)?.hide();
                     } catch (_) {
                         requestAnimationFrame(hideBar);
                     }

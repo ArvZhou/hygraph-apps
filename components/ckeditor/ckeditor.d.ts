@@ -9,6 +9,7 @@ interface EditorInterface {
                 on: (arg0: string, arg1: any) => void,
                 hide: () => void
             })  | null,
+            count: () => number
         } | null
     },
     getData: () => string,
