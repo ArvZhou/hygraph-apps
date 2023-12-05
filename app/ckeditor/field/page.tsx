@@ -1,9 +1,8 @@
 'use client'
 import { useCallback } from 'react';
-import { useFieldExtension } from '@hygraph/app-sdk-react';
+import { useFieldExtension, Wrapper } from '@hygraph/app-sdk-react';
 import { useDebouncedCallback } from 'use-debounce';
 
-import CKEditorWrapper from '@/components/ckeditor/wrapper';
 import CKEditor4 from '@/components/ckeditor/editor4';
 
 function CKEditorFieldVersion4() {
@@ -65,8 +64,8 @@ function CKEditorFieldVersion4() {
 
 export default function Field() {
     return (
-        <CKEditorWrapper>
+        <Wrapper>
             <CKEditorFieldVersion4 />
-        </CKEditorWrapper>
+        </Wrapper>
     );
 }

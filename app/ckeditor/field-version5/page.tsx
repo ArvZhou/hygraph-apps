@@ -1,10 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { useFieldExtension } from '@hygraph/app-sdk-react';
+import { useFieldExtension, Wrapper } from '@hygraph/app-sdk-react';
 import { useDebouncedCallback } from 'use-debounce';
-
-import CKEditorWrapper from '../../../components/ckeditor/wrapper';
-
 let CKComponent = (props: {data: string, onChange: (arg0: any, arg1: any) => void}) => <p>CKEditor is not init!</p>
 
 const importCK = async () => {
@@ -46,8 +43,8 @@ function CustomField() {
 
 export default function MyCustomField() {
     return (
-        <CKEditorWrapper>
+        <Wrapper>
             <CustomField />
-        </CKEditorWrapper>
+        </Wrapper>
     );
 }
