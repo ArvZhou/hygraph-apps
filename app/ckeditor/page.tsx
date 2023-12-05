@@ -42,8 +42,8 @@ function Install() {
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
-            workspace: extension?.config?.workspace,
-            environment: extension?.config?.environment,
+            workspace: extension?.config?.workspace as string || '',
+            environment: extension?.config?.environment as string || '',
         }
     });
 
