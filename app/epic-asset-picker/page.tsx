@@ -121,7 +121,6 @@ function Install() {
 }
 
 const CompeltePage = () => {
-    const { updateInstallation } = useApp();
     const { setUpdate } = useContext(PageContext);
 
     return (
@@ -136,7 +135,7 @@ const CompeltePage = () => {
                 variant="outlined"
                 size='large'
                 sx={{ marginTop: 3 }}
-                onClick={() => { updateInstallation({ status: 'PENDING' }); setUpdate?.(true) }}
+                onClick={() => setUpdate?.(true)}
             >
                 Update Configuration
             </LoadingButton>
