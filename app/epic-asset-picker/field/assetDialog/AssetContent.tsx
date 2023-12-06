@@ -20,7 +20,8 @@ export interface Asset {
     thumbnails?: {
         url: string
     },
-    url?: string
+    url?: string,
+    size?: number
 }
 
 function AssetContent({onChange, environment, workspace, image}: {
