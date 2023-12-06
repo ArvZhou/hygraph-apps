@@ -34,8 +34,13 @@ function AssetContent({onChange, environment, workspace, image}: {
 
     const fetchAssets = useCallback(async (path: string) => {
         setloading(true);
-        const response = await fetch(`https://${CSM_ENV[environment as keyof CSM_DOMAINS]}/asset/getAssetTree?fullPath=${encodeURIComponent(path)}&isHygraph=true`);
-        const data = await response.json();
+        let data = [];
+        try {
+            const response = await fetch(`https://${CSM_ENV[environment as keyof CSM_DOMAINS]}/asset/getAssetTree?fullPath=${encodeURIComponent(path)}&isHygraph=true`);
+            data = await response.json();
+        } catch (error) {
+            console.error('Fetch Assets Error:', error)
+        }
         setloading(false);
 
         return data

@@ -54,8 +54,6 @@ function Install() {
         setUpdate?.(false);
     }, [updateInstallation, setUpdate])
 
-    console.log('extension', extension?.config?.workspace);
-
     return (
         <Box sx={{ width: '100%', padding: 10 }}>
             <Typography variant="h4" gutterBottom>

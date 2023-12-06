@@ -1,15 +1,14 @@
 'use client'
 import { useCallback } from 'react';
-import { useFieldExtension } from '@hygraph/app-sdk-react';
-import EpicAssetPickerWrapper from '@/components/epic-asset-picker/wrapper';
+import { useFieldExtension, Wrapper } from '@hygraph/app-sdk-react';
 import Button from '@/components/field/button';
 import { AssetIcon, DeleteIcon, FileIcon } from '@/components/icons';
 import Image from '@/components/image';
 
 import styles from './index.module.css';
 
-const CompletePage = () => {
-  const { name, value, onChange, openDialog, extension } = useFieldExtension();
+const FieldContent = () => {
+  const { name, value, onChange, openDialog, extension, installation } = useFieldExtension();
 
   const showAssetDialog = useCallback(async () => {
     const pickedAsset = await openDialog('/epic-asset-picker/field/assetDialog', {
@@ -24,6 +23,10 @@ const CompletePage = () => {
       onChange(pickedAsset);
     }
   }, [openDialog, onChange, value, extension]);
+
+  if (installation.status !== 'COMPLETED') {
+    return <p>Please complete the configuration of the App</p>
+  }
 
   return (
     <div className={styles.valueWrapper}>
@@ -53,8 +56,8 @@ const CompletePage = () => {
 
 export default function Field() {
   return (
-    <EpicAssetPickerWrapper>
-      <CompletePage />
-    </EpicAssetPickerWrapper>
+    <Wrapper>
+      <FieldContent />
+    </Wrapper>
   );
 }

@@ -6,7 +6,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import CKEditor4 from '@/components/ckeditor/editor4';
 
 function CKEditorFieldVersion4() {
-    const { value, onChange, openDialog, extension } = useFieldExtension();
+    const { value, onChange, openDialog, extension, installation } = useFieldExtension();
     const debounced = useDebouncedCallback(onChange, 500);
 
     const onMaximize = useCallback(async (_: any, data: string) => {
@@ -50,6 +50,10 @@ function CKEditorFieldVersion4() {
             config: extension.config
         });
     }, [extension.config, openDialog])
+
+    if (installation.status !== 'COMPLETED') {
+        return <p>Please complete the configuration of the App</p>
+    }
 
     return (
         <CKEditor4
