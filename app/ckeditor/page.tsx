@@ -6,17 +6,13 @@ import {
 } from '@hygraph/app-sdk-react';
 import { useCallback, useState, createContext, useContext, Dispatch, SetStateAction, useMemo, useEffect, forwardRef } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
 import { useForm, Controller } from 'react-hook-form';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import {
+    Button, Box, Typography, Select, MenuItem,
+    TextField, InputLabel, FormHelperText, FormControl,
+    Paper, Table, TableBody, TableCell,
+    TableContainer, TableHead, TableRow
+} from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { ConfirmProvider, useConfirm } from "material-ui-confirm";
 import { EmptyIcon } from '@/components/icons';

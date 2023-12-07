@@ -1,3 +1,15 @@
+function getWhiteDomains(domainsStr) {
+    if (!domainsStr) {
+        return [];
+    }
+
+    try {
+        return JSON.parse(domainsStr);
+    } catch (error) {
+        console.log('Parse white domains error', `-->${domainsStr}<--`)
+        return [];
+    }
+}
 CKEDITOR.dialog.add("youtubeDialog", function (editor) {
     return {
         title: "Video",
@@ -21,11 +33,7 @@ CKEDITOR.dialog.add("youtubeDialog", function (editor) {
                             this.setValue(value);
                         },
                         commit: function (widget) {
-                            const validDomainsStr =
-                                localStorage.getItem("whiteDomains");
-                            const validDomains = validDomainsStr
-                                ? JSON.parse(validDomainsStr)
-                                : [];
+                            const validDomains = getWhiteDomains(editor.whiteDomains);
 
                             let value = this.getValue() || "";
                             if (value.startsWith("http")) {
@@ -102,6 +110,7 @@ CKEDITOR.dialog.add("youtubeDialog", function (editor) {
                             } else {
                                 value = `https://www.youtube-nocookie.com/embed/${value}?rel=0`;
                             }
+                            console.log('value', value);
                             widget.setData("src", value);
                         },
                     },

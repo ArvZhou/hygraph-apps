@@ -63,6 +63,7 @@ function CKEditorFieldVersion4() {
             onMaximize={onMaximize}
             chooseImage={chooseImage}
             setSwipe={setSwipe}
+            whiteDomains={extension.config.domainsConfig as string}
         />)
 }
 

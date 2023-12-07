@@ -29,5 +29,6 @@ interface EditorInterface {
     setMode: (arg0: string, arg1?: any) => void,
     createRange: () => any,
     getCommand: (arg: string) => ({state: string}),
-    isMaximize?: boolean
+    isMaximize?: boolean,
+    whiteDomains: string
 }

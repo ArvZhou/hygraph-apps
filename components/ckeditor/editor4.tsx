@@ -18,6 +18,7 @@ export interface EditorPropsInterface {
     placeholder?: string,
     value: string,
     config?: EditorConfigInterface,
+    whiteDomains: string,
     onChange:(data: string) => void,
     onMaximize?: (event: { stop: () => void}, data: string) => void,
     onFocus?: () => void,
@@ -41,6 +42,7 @@ export default function Editor(
         placeholder="",
         value,
         config={},
+        whiteDomains='',
         onChange,
         onMaximize=(data) => data,
         onFocus=() => void 0,
@@ -217,6 +219,12 @@ export default function Editor(
             bindEditorEvents();
         }
     }, [config, name, bindEditorEvents, isMaximize])
+
+    useEffect(() => {
+        if (ckeditor && whiteDomains) {
+            ckeditor.whiteDomains = whiteDomains;
+        }
+    }, [whiteDomains, ckeditor])
 
     useEffect(() => {
         const script = document.createElement('script');
