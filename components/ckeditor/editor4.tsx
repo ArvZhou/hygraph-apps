@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { CKEDITOR_STAMP, DEFAULT_CONFIG, DEFAULT_TOOLBAR } from './constants';
+import { filterTextWithDomains } from '@/utils';
 
 export interface EditorConfigInterface {
     language?: string,
@@ -173,6 +174,23 @@ export default function Editor(
                     swipeBtn.setAttribute('onclick', '');
                     swipeBtn.on('click', () => setSwipeHtml(editor));
                 }
+            }
+
+            const sourceButton = editor.container?.find('.cke_button__source')?.getItem(0);
+
+            if (sourceButton) {
+                sourceButton.on('click', function(this: {
+                    $: {
+                        ariaPressed: string,
+                        onclick: () => void,
+                    },
+                }) {
+                    setTimeout(() => {
+                        if (this.$.ariaPressed === 'false') {
+                            editor.setData(filterTextWithDomains(editor.getData(), editor.whiteDomains));
+                        }
+                    }, 100)
+                });
             }
         })
     }, [onChange, onMaximize, config, onFocus, chooseImage, setImageHtml, setSwipe, setSwipeHtml])

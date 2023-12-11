@@ -110,7 +110,6 @@ CKEDITOR.dialog.add("youtubeDialog", function (editor) {
                             } else {
                                 value = `https://www.youtube-nocookie.com/embed/${value}?rel=0`;
                             }
-                            console.log('value', value);
                             widget.setData("src", value);
                         },
                     },

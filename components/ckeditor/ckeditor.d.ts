@@ -7,7 +7,9 @@ interface EditorInterface {
             getItem: (number) => ({
                 setAttribute: (arg0: string, arg1: string) => void
                 on: (arg0: string, arg1: any) => void,
-                hide: () => void
+                hide: () => void,
+                hasClass: (arg: string) => boolean,
+                getAttribute: (arg: string) => string,
             })  | null,
             count: () => number
         } | null
