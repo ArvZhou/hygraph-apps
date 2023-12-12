@@ -65,14 +65,15 @@ export function filterTextWithDomains(text: string, domainsStr: string) {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = text;
 
-    wrapper.querySelectorAll('.embed-responsive iframe').forEach((node) => {
-        const nodeEle = node as HTMLIFrameElement;
-        const src = replaceSrc(nodeEle.src, domains);
+    wrapper.querySelectorAll<HTMLIFrameElement>('.embed-responsive iframe').forEach((node) => {
+        const src = replaceSrc(node.src, domains);
 
-        if (src) {
-            nodeEle.src = src;
-        } else {
-            nodeEle.remove();
+        if (src && src !== node.src) {
+            node.src = src;
+        }
+
+        if (!src) {
+            node.parentElement?.remove();
         }
     })
 
