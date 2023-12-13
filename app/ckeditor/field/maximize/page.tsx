@@ -6,7 +6,12 @@ import { Wrapper, useUiExtensionDialog } from '@hygraph/app-sdk-react';
 import CKEditor4 from '@/components/ckeditor/editor4';
 
 function CKEditorFieldVersion4() {
-    const { value, onCloseDialog } = useUiExtensionDialog();
+    const { value, onCloseDialog, config } = useUiExtensionDialog<string, {
+        value: string,
+        config: {
+            whiteDomains: string
+        }
+    }>();
     const [richText, setRichText] = useState<string>(value as string);
 
     return (
@@ -16,6 +21,7 @@ function CKEditorFieldVersion4() {
             onChange={(data: any) => setRichText(data)}
             onMaximize={(_: any, data: string) => onCloseDialog(data)}
             config={{ height: 450, full: true }}
+            whiteDomains={config.whiteDomains}
             isMaximize
         />)
 }

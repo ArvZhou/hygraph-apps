@@ -14,13 +14,16 @@ function CKEditorFieldVersion4() {
             ariaLabel: 'Cheditor maximize',
             maxWidth: '1024px',
             disableOverlayClick: true,
-            value: data
+            value: data,
+            config: {
+                whiteDomains: extension.config.domainsConfig as string
+            }
         });
 
         if (res) {
             onChange(res);
         }
-    }, [openDialog, onChange]);
+    }, [openDialog, onChange, extension.config.domainsConfig]);
 
     const chooseImage = useCallback(async () => {
         const image = await openDialog('/epic-asset-picker/field/assetDialog', {
