@@ -6,6 +6,7 @@ import {
 } from '@hygraph/app-sdk-react';
 import { useCallback, useState, createContext, useContext, Dispatch, SetStateAction, useMemo, useEffect, forwardRef } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
+import AddIcon from '@mui/icons-material/Add';
 import { useForm, Controller } from 'react-hook-form';
 import {
     Button, Box, Typography, Select, MenuItem,
@@ -207,11 +208,13 @@ const WhiteDomain = forwardRef(function WD({ value, onChange }: {
 
     return (
         <>
-            <Box justifyContent="space-between" display="flex">
+            <Box justifyContent="space-between" display="flex" paddingBottom="7px">
                 <Typography variant="subtitle2" gutterBottom paddingBottom="7px">
                     White Domains
                 </Typography>
-                <Button onClick={() => setShowAdd(true)}>Add new white domain</Button>
+                <Button onClick={() => setShowAdd(true)} variant="contained" startIcon={<AddIcon />}>
+                    Add new white domain
+                </Button>
             </Box>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 400 }}>
