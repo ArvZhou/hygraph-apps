@@ -5,9 +5,11 @@
     font-weight: normal;
     unicode-range: U+0025-00FF;
 }
+.listWrapper {
+    background-color: #fff;
+}
 
 .valueWrapper {
-    background-color: #fff;
     font-family: 'Inter';
 }
 
@@ -56,6 +58,6 @@
     cursor: pointer;
 }
 
-.valueButton:hover {
+.valueButton>svg:hover {
     transform: scale(1.1);
 }

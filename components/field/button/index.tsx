@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 
 type ButtonProps = {
-    children: JSX.Element | JSX.Element[] | string,
+    children: JSX.Element | JSX.Element[] | string | string[],
     onClick: () => void | Promise<void>,
     icon: JSX.Element
 }
