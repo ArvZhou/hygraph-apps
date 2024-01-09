@@ -150,7 +150,7 @@ function Install() {
                     type="submit"
                     loading={loading}
                 >
-                    {installation.status === 'COMPLETED' ? 'Update' : 'Install'} epic asset picker
+                    {installation.status === 'COMPLETED' ? 'Update' : 'Install'} epic ckeditor
                 </LoadingButton>
             </form>
         </Box>

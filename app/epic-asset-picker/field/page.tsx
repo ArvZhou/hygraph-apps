@@ -75,8 +75,6 @@ const FieldList = () => {
     onChange([...(value || []), item])
   }, [value, onChange])
 
-  console.log('formattedValue', formattedValue);
-
   return (
     <div className={styles.listWrapper}>
       {
