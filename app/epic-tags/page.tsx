@@ -1,9 +1,5 @@
-import { Wrapper } from '@hygraph/app-sdk-react';
-
-export default function Field() {
+export default function Page() {
     return (
-      <Wrapper>
-        ssss
-      </Wrapper>
+      <span>Tags</span>
     );
   }
