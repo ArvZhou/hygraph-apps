@@ -1,0 +1,65 @@
+.fieldWrapper {
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.fieldTags {
+    width: 100%;
+    padding: 0 1px;
+    min-height: 36px;
+    background-color: #fff;
+    border: 1px solid rgb(208, 213, 231);
+    display: flex;
+    border-radius: 2px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.fieldTag {
+    height: 36px;
+    background-color: hsla(0,0%,95%,.3);
+    border: 0;
+    padding: 0 6px;
+    line-height: 36px;
+    border-right: 1px #f0f0f0 solid;
+    border-bottom: 1px #f0f0f0 solid;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.fieldTag>svg {
+    cursor: pointer;
+}
+
+.inputTag {
+    outline: none;
+    width: 100px;
+    height: 36px;
+    text-indent: 3px;
+}
+
+.droplist {
+    width: 100%;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-height: 100px;
+    overflow: auto;
+    margin-top: 3px;
+    border-radius: 3px;
+}
+
+.tagItem {
+    background-color: transparent;
+    padding: 0 10px;
+    cursor: pointer;
+    color: #000;
+}
+
+.tagItem:hover {
+    color: #999;
+}

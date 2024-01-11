@@ -1,6 +1,6 @@
 'use client'
 import { useCallback } from 'react';
-import { useFieldExtension, Wrapper, useApp } from '@hygraph/app-sdk-react';
+import { useFieldExtension, Wrapper } from '@hygraph/app-sdk-react';
 import Button from '@/components/field/button';
 import { AssetIcon, DeleteIcon, FileIcon } from '@/components/icons';
 import Image from '@/components/image';

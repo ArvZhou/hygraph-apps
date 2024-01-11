@@ -4,7 +4,11 @@ import {
     useApp,
     useFieldExtension
 } from '@hygraph/app-sdk-react';
-import { useCallback, useState, createContext, useContext, Dispatch, SetStateAction, useMemo, useEffect, forwardRef } from 'react';
+import {
+    useCallback, useState, createContext,
+    useContext, Dispatch, SetStateAction,
+    useMemo, useEffect, forwardRef
+} from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import AddIcon from '@mui/icons-material/Add';
 import { useForm, Controller } from 'react-hook-form';
@@ -46,7 +50,7 @@ function Install() {
     const { setUpdate } = useContext(PageContext);
     const [loading, setLoading] = useState(false);
 
-    const config = useMemo(() => extension.config as Config | null, [extension])
+    const config = useMemo(() => extension?.config as Config | null, [extension])
 
     const defaultDomains = useMemo<Domains>(() => {
         if (!config?.domainsConfig) {
@@ -83,7 +87,7 @@ function Install() {
                 Welcome to use ckeditor app
             </Typography>
             <Typography variant="body1" gutterBottom>
-                After you install the ckeditor application, you can find the corresponding field about ckeditor in schema fields, so that you can use it to edit documents in ckeditor.
+                After you install the ckeditor application, you can find the corresponding field about ckeditor in schema fields, then you can use it to edit documents in ckeditor.
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Box sx={{ width: '380px', padding: '40px 0 20px' }}>

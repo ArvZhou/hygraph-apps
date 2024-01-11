@@ -79,3 +79,15 @@ export function filterTextWithDomains(text: string, domainsStr: string) {
 
     return wrapper.innerHTML;
 }
+
+export function getArrayFormStr(str: string) {
+    if (!str) {
+        return [];
+    }
+
+    try {
+        return JSON.parse(str);
+    } catch (error) {
+        return [];
+    }
+}
