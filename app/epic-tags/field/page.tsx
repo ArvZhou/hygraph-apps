@@ -48,8 +48,12 @@ function FieldContent() {
         }
     }, [allTags, input, addTag, removeLastTag])
 
-    const handleRemoveClick = useCallback((e: { preventDefault: () => void },index: number) => {
+    const handleRemoveClick = useCallback((e: {
+        preventDefault: () => void,
+        stopPropagation: () => void
+    },index: number) => {
         e.preventDefault();
+        e.stopPropagation();
         removeTag(index);
     }, [removeTag])
 
