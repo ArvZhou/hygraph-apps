@@ -121,7 +121,10 @@ const Install = () => {
             sx={{ border: '1px rgba(0, 0, 0, 0.12) solid', pl: 1 }}
             placeholder="Filter"
             inputProps={{ 'aria-label': 'Filter' }}
-            onChange={e => setFilter(e.target.value)}
+            onChange={e => {
+              setFilter(e.target.value);
+              setSelectedTags([]);
+            }}
           />
           <AddTagButton onOk={handleAdd} />
           <EditTagButton onOk={handleEdit} disabled={selectedTags.length !== 1} currentTag={selectedTags[0]}/>
