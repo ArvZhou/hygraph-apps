@@ -80,7 +80,7 @@ export function filterTextWithDomains(text: string, domainsStr: string) {
     return wrapper.innerHTML;
 }
 
-export function getArrayFormStr(str: string) {
+export function getArrayFormJsonStr(str: string) {
     if (!str) {
         return [];
     }
@@ -90,4 +90,12 @@ export function getArrayFormStr(str: string) {
     } catch (error) {
         return [];
     }
+}
+
+export function getArrayFormStr(str: string, delimiter: string) {
+    return str?.split(delimiter) || [];
+}
+
+export function removeItemWithIndex<T>(array: T[], index: number) {
+    return [...array.slice(0, index), ...array.slice(index + 1, Infinity)];
 }

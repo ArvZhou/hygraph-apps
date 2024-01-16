@@ -23,8 +23,8 @@
     border: 0;
     padding: 0 6px;
     line-height: 36px;
-    border-right: 1px #f0f0f0 solid;
-    border-bottom: 1px #f0f0f0 solid;
+    border-right: 1px #e0e0e0 solid;
+    border-bottom: 1px #e0e0e0 solid;
     display: flex;
     align-items: center;
     gap: 3px;

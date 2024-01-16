@@ -1,9 +1,15 @@
 'use client'
 import { Wrapper, useApp, useFieldExtension } from '@hygraph/app-sdk-react';
-import { useCallback, useState, createContext, useContext, Dispatch, SetStateAction, useMemo, useEffect, useRef, KeyboardEventHandler } from 'react';
+import { useCallback, useState, createContext, useContext, Dispatch, SetStateAction, useMemo, useEffect } from 'react';
+import { useTimeoutFn } from 'react-use'; 
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Box, Chip, Divider, IconButton, InputBase, Paper, Typography } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
+import { Alert, AlertTitle, Box, Divider, IconButton, InputBase, Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import DelIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
+import { getArrayFormJsonStr, removeItemWithIndex } from '@/utils';
+import { AddTagButton, EditTagButton, Item } from '@/components/epic-tags';
+import { ConfirmProvider, useConfirm } from 'material-ui-confirm';
 
 interface PageContextInte {
   update: boolean,
@@ -21,60 +27,72 @@ function Setup() {
     return <Compelete />;
   }
 
-  return <Install />;
+  return <ConfirmProvider><Install /></ConfirmProvider>;
 }
 
 const Install = () => {
   const { updateInstallation } = useApp();
   const { extension, installation } = useFieldExtension();
   const [loading, setLoading] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const { setUpdate } = useContext(PageContext);
   const config = useMemo(() => extension?.config as Config | null, [extension])
-  const defaultTags = useMemo<string[]>(() => {
-    if (!config?.tags) {
-      return [];
-    }
-
-    try {
-      return JSON.parse(config.tags);
-    } catch (error) {
-      console.error('Parse tags config error:', error);
-      return [];
-    }
-  }, [config?.tags])
-
+  const defaultTags = useMemo<string[]>(() => getArrayFormJsonStr(config?.tags || ''), [config?.tags])
   const [tags, setTags] = useState(defaultTags);
+  const [filter, setFilter] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const confirm = useConfirm();
+
+  const [isReady, cancel, reset] = useTimeoutFn(() => {
+    setShowAlert(false);
+  }, 3000);
 
   useEffect(() => {
-    setTags(defaultTags);
-  }, [defaultTags])
-
-  const handleDelete = useCallback((tag: string) => {
-    const index = tags.indexOf(tag);
-
-    if (index > -1) {
-      setTags([...tags.slice(0, index), ...tags.slice(index + 1, Infinity)]);
+    return () => {
+      cancel();
     }
-  }, [tags])
+  }, [cancel])
+  useEffect(() => { setTags(defaultTags) }, [defaultTags])
 
-  const handleAdd = useCallback(() => {
-    if (!inputRef.current) return;
+  const handleDelete = useCallback(async () => {
+    await confirm({ title: 'Confirm', description: <span>Are you sure to delete this tags <strong>{selectedTags.join(',')}</strong>!</span> });
+    setTags((tags) => tags.filter(tag => !selectedTags.includes(tag)));
+    setSelectedTags([]);
+  }, [confirm, selectedTags])
+
+  const handleAdd = useCallback((tag: string) => {
+    if (tags.includes(tag)) {
+      setShowAlert(true);
+      reset();
+
+      return;
+    }
   
-    const inputValue = inputRef.current?.value;
+    setTags([...tags, tag]);
+  }, [reset, tags])
 
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      setTags([...tags, inputValue]);
-    }
-    inputRef.current.value = '';
-  }, [tags])
+  const handleEdit = useCallback((newTagName: string) => {
+    if (tags.includes(newTagName)) {
+      setShowAlert(true);
+      reset();
 
-  const handleEnter:KeyboardEventHandler<HTMLInputElement> = useCallback(e => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleAdd();
+      return;
     }
-  }, [handleAdd])
+
+    setSelectedTags(([prewTag]) => {
+      setTags(tags => tags.map(tag => tag === prewTag ? newTagName : tag));
+      return [];
+    })
+  }, [reset, tags])
+
+  const toggleSelect = (tag: string) => {
+    setSelectedTags(tags => {
+      if (tags.includes(tag)) {
+        return removeItemWithIndex(tags, tags.indexOf(tag));
+      }
+      return [...tags, tag];
+    })
+  }
 
   const installTags = useCallback(async () => {
     setLoading(true);
@@ -88,35 +106,61 @@ const Install = () => {
       <Typography variant="h4" gutterBottom>
         Welcome to use epic tags app
       </Typography>
-      {installation.status !== 'COMPLETED'  && (
+      {installation.status !== 'COMPLETED' && (
         <Typography variant="body1" gutterBottom>
           After you install the tags application, you can find the corresponding field about tags in schema fields, then you can use it to add tags.
         </Typography>
       )}
-      <Box>
-        <Paper
-          component="form"
-          sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-        >
+      <Divider />
+      <Box sx={{ paddingTop: 1 }}>
+        <Typography variant="h6" gutterBottom>
+          Manage tags
+        </Typography>
+        <Box display="flex">
           <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="Add Tag"
-            inputProps={{ 'aria-label': 'Add Tag' }}
-            inputRef={inputRef}
-            onKeyDown={handleEnter}
+            sx={{ border: '1px rgba(0, 0, 0, 0.12) solid', pl: 1 }}
+            placeholder="Filter"
+            inputProps={{ 'aria-label': 'Filter' }}
+            onChange={e => setFilter(e.target.value)}
           />
-          <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-          <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions" onClick={handleAdd}>
-            <CheckIcon />
+          <AddTagButton onOk={handleAdd} />
+          <EditTagButton onOk={handleEdit} disabled={selectedTags.length !== 1} currentTag={selectedTags[0]}/>
+          <IconButton onClick={handleDelete} disabled={selectedTags.length === 0}>
+            <DelIcon />
           </IconButton>
-        </Paper>
-        <Box sx={{ paddingTop: 1 }}>
-          {
-            tags.map(tag => {
-              return <Chip key={tag} label={tag} variant="outlined" onDelete={() => handleDelete(tag)} />
-            })
-          }
         </Box>
+        {showAlert && !isReady() && (
+          <Alert
+            severity="warning"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  cancel();
+                  setShowAlert(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+              This tag has already existed.
+          </Alert>)}
+        <Grid container spacing={1} paddingTop={1}>
+          {
+            tags
+              .filter(tag => tag.indexOf(filter) > -1)
+              .map(tag => {
+                return (
+                  <Grid xs={3} md={3} key={tag}>
+                    <Item active={selectedTags.includes(tag)} onClick={() => toggleSelect(tag)}>{tag}</Item>
+                  </Grid>
+                )
+              })
+          }
+        </Grid>
       </Box>
       <LoadingButton
         variant="contained"

@@ -1,29 +1,29 @@
 'use client'
 import { Wrapper, useFieldExtension } from '@hygraph/app-sdk-react';
-import { KeyboardEventHandler, MouseEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { getArrayFormStr } from '@/utils';
+import { KeyboardEventHandler, useCallback, useMemo, useRef, useState } from 'react';
+import { getArrayFormJsonStr, getArrayFormStr, removeItemWithIndex } from '@/utils';
 import { RemoveIcon } from '@/components/icons';
 
 import styles from './index.module.css';
+import { DropDownItem, Item } from '@/components/epic-tags';
 
 function FieldContent() {
     const inputRef = useRef<HTMLInputElement>(null);
     const { value, extension, onChange } = useFieldExtension();
     const [input, setInput] = useState<string>('');
+    const [showDropList, setShowDropList] = useState<boolean>(false);
 
-    const selectedTags = useMemo<string[]>(() => getArrayFormStr(value) as [], [value]);
-    const allTags = useMemo<string[]>(() => getArrayFormStr(extension?.config?.tags as string) as [], [extension?.config?.tags]);
+    const selectedTags = useMemo<string[]>(() => getArrayFormStr(value, ','), [value]);
+    const allTags = useMemo<string[]>(() => getArrayFormJsonStr(extension?.config?.tags as string), [extension?.config?.tags]);
 
     const filterTags = useMemo(() => {
-        if (!input) return [];
-
-        return allTags.filter(tag => {
+        return allTags.filter((tag) => {
             return selectedTags.indexOf(tag) === -1 && String(tag).indexOf(input) > -1
         })
     }, [allTags, input, selectedTags])
 
     const addTag = useCallback((tag: string) => {
-        onChange(JSON.stringify([...selectedTags, tag]));
+        onChange(([...selectedTags, tag]).join(','));
         if (inputRef.current) {
             inputRef.current.value = '';
         }
@@ -31,7 +31,7 @@ function FieldContent() {
     }, [onChange, selectedTags])
 
     const removeTag = useCallback((index: number) => {
-        onChange(JSON.stringify([...selectedTags.slice(0, index), ...selectedTags.slice(index + 1, Infinity)]));
+        onChange(removeItemWithIndex(selectedTags, index).join(',') || null);
     }, [onChange, selectedTags])
 
     const removeLastTag = useCallback(() => {
@@ -72,23 +72,28 @@ function FieldContent() {
                     className={styles.inputTag}
                     onKeyDown={handleKeyEvent}
                     onChange={({ currentTarget }) => setInput(currentTarget.value)}
+                    onFocus={() => setShowDropList(true)}
+                    onBlur={() => setTimeout(() => setShowDropList(false), 300)}
                 />
             </div>
-            <div className={styles.droplist}>
-                {
-                    filterTags.map((tag: string) => {
-                        return (
-                            <div
-                                key={tag}
-                                className={styles.tagItem}
-                                onClick={() => addTag(tag)}
-                            >
-                                {tag}
-                            </div>
-                        )
-                    })
-                }
-            </div>
+            {
+                showDropList && (
+                    <div className={styles.droplist}>
+                        {
+                            filterTags.map((tag: string) => {
+                                return (
+                                    <DropDownItem
+                                        key={tag}
+                                        onClick={() => addTag(tag)}
+                                    >
+                                        {tag}
+                                    </DropDownItem>
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
         </div>
     )
 }
