@@ -56,7 +56,6 @@ function AssetContent({onChange, environment, workspace, image}: {
 
                 assets = data.sort((a, b) => a.name?.localeCompare(b.name || '') || 0);
             }
-            
 
             setAssets(assets);
             setCurrentFile(null);

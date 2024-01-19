@@ -4,9 +4,10 @@ import { useFieldExtension, Wrapper } from '@hygraph/app-sdk-react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import CKEditor4 from '@/components/ckeditor/editor4';
+import { isImageMimeType } from '@/utils';
 
 function CKEditorFieldVersion4() {
-    const { value, onChange, openDialog, extension, installation } = useFieldExtension();
+    const { value, onChange, openDialog, extension, installation, openAssetPicker } = useFieldExtension();
     const debounced = useDebouncedCallback(onChange, 500);
 
     const onMaximize = useCallback(async (_: any, data: string) => {
@@ -25,7 +26,7 @@ function CKEditorFieldVersion4() {
         }
     }, [openDialog, onChange, extension.config.domainsConfig]);
 
-    const chooseImage = useCallback(async () => {
+    const chooseFromEpicCMS = useCallback(async() => {
         const image = await openDialog('/epic-asset-picker/field/assetDialog', {
             ariaLabel: 'Asset Picker Dialog',
             maxWidth: `${Math.max(0.6 * window.screen.width, 1280)}px`,
@@ -44,6 +45,34 @@ function CKEditorFieldVersion4() {
 
         return { src: url, alt: name, width, height, title: name }
     }, [openDialog, extension.config])
+
+    const chooseFromHygraph = useCallback(async () => {
+        const asset = await openAssetPicker();
+
+        const { mimeType='', url, width, height, fileName } = asset || {};
+        if (isImageMimeType(mimeType)) {
+            return { src: url, alt: fileName, width, height, title: fileName }
+        }
+
+        return null
+    }, [openAssetPicker])
+
+    const chooseImage = useCallback(async () => {
+        const type = await openDialog('/ckeditor/field/image', {
+            ariaLabel: 'Ckeditor image',
+            maxWidth: '300px'
+        });
+
+        if (type === 'epicCMS') {
+            return await chooseFromEpicCMS();
+        }
+
+        if (type === 'Hygraph') {
+            return chooseFromHygraph();
+        }
+
+        return null
+    }, [chooseFromEpicCMS, chooseFromHygraph, openDialog])
 
     const setSwipe = useCallback(() => {
         return openDialog('/ckeditor/field/swipe', {

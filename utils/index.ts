@@ -2,6 +2,14 @@ export function isImageFile(name: string) {
     return (/\.(jpg|jpeg|png|gif|svg)$/i).test(name);
 }
 
+const imageMimetypes = [
+    'image/apng',   'image/avif',     'image/gif',   'image/jpeg',
+    'image/png',    'image/svg+xml',  'image/webp'
+];
+export function isImageMimeType(mimetype: string) {
+    return imageMimetypes.includes(mimetype);
+}
+
 function getDomains(domainsStr: string) {
     if (!domainsStr) {
         return [];

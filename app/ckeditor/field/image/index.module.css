@@ -1,0 +1,31 @@
+.dialogArticle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 0;
+    flex-direction: column;
+    background-color: #fff;
+    width: 300px;
+    border-radius: 3px;
+}
+
+.dialogArticle>li {
+    width: 90%;
+    height: 45px;
+}
+
+.dialogArticle button {
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+    font-size: 13px;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.dialogArticle button:hover {
+    transition: all linear 100ms;
+    transform: scale(1.01);
+    font-size: 14px;
+}
