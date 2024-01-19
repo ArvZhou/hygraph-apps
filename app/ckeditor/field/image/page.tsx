@@ -8,14 +8,17 @@ function ImagePicker() {
     const { onCloseDialog } = useUiExtensionDialog();
 
     return (
-        <ul className={styles.dialogArticle}>
-            <li>
-                <button type="button" onClick={() => onCloseDialog('Hygraph')}>Choose from Hygraph</button>
-            </li>
-            <li>
-                <button type="button" onClick={() => onCloseDialog('epicCMS')}>Choose from Epic CMS</button>
-            </li>
-        </ul>
+        <div className={styles.dialogWrapper}>
+            <div className={styles.dialogTitle}>Select image library</div>
+            <ul className={styles.dialogArticle}>
+                <li>
+                    <button type="button" onClick={() => onCloseDialog('Hygraph')}>Choose from Hygraph asset</button>
+                </li>
+                <li>
+                    <button type="button" onClick={() => onCloseDialog('epicCMS')}>Choose from Epic CMS asset</button>
+                </li>
+            </ul>
+        </div>
     )
 }
 
