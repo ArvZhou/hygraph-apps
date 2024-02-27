@@ -1,12 +1,12 @@
 'use client'
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import Tree, { ItemInterface, TreeRef } from '@/components/epic-asset-picker/tree';
-import Image from '@/components/image';
-import { FileIcon, EmptyIcon, Loading as LoadingIcon, Folder } from '@/components/icons';
+import { EmptyIcon, Loading as LoadingIcon, Folder } from '@/components/icons';
 import { CSM_ENV, CSM_DOMAINS } from '@/constants';
 import { isImageFile } from '@/utils';
 
 import styles from './index.module.css';
+import FileTypeImage from '@/components/epic-asset-picker/fileType';
 
 export interface AssetDialogConfig {
     workspace: string,
@@ -109,11 +109,7 @@ function AssetContent({onChange, environment, workspace, image}: {
             return (
                 <div className={`${styles.assetDialogListItem} ${styles.assetDialogListItemSingle}`} title={name}>
                     {(thumbnails?.url || url) && (
-                        <Image
-                            src={thumbnails?.url || url}
-                            alt='Asset image'
-                            error={<FileIcon />}
-                        />)}
+                        <FileTypeImage url={thumbnails?.url || url} />)}
                     <span className={styles.assetDialogListItemLabel}>{name}</span>
                 </div>
             )
@@ -137,11 +133,7 @@ function AssetContent({onChange, environment, workspace, image}: {
                                     title={name}
                                 >
                                     {(thumbnails?.url || url) && (
-                                        <Image
-                                            src={thumbnails?.url || url}
-                                            alt='Asset image'
-                                            error={<FileIcon />}
-                                        />)}
+                                        <FileTypeImage url={thumbnails?.url || url} />)}
                                     <span className={styles.assetDialogListItemLabel}>{name}</span>
                                 </li>
                             )

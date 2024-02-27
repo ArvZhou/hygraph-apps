@@ -1,5 +1,19 @@
-export function isImageFile(name: string) {
+/**
+ * Check if the given file name represents an image file.
+ *
+ * @param {string} name - The file name to be checked.
+ * @return {boolean} True if the file name represents an image file, false otherwise.
+ */
+export function isImageFile(name: string = '') {
     return (/\.(jpg|jpeg|png|gif|svg)$/i).test(name);
+}
+
+export function isVideoFile(name: string = '') {
+    return (/\.(mp3|mp4|avi|webm|mkv|flv|vob|ogv|ogg|drc|mov|qt|wmv|rm|rmvb|m4v|m4p)$/i).test(name);
+}
+
+export function isFontFile(name: string = '') {
+    return (/\.(woff|ttf|eot|otf|woff2|afm|pfm|pfb)$/i).test(name);
 }
 
 const imageMimetypes = [

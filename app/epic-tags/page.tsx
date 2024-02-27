@@ -3,7 +3,7 @@ import { Wrapper, useApp, useFieldExtension } from '@hygraph/app-sdk-react';
 import { useCallback, useState, createContext, useContext, Dispatch, SetStateAction, useMemo, useEffect } from 'react';
 import { useTimeoutFn } from 'react-use'; 
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Alert, AlertTitle, Box, Divider, IconButton, InputBase, Typography } from '@mui/material';
+import { Alert, Box, Divider, IconButton, InputBase, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import DelIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';

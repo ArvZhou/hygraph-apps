@@ -5,7 +5,7 @@ import { getArrayFormJsonStr, getArrayFormStr, removeItemWithIndex } from '@/uti
 import { RemoveIcon } from '@/components/icons';
 
 import styles from './index.module.css';
-import { DropDownItem, Item } from '@/components/epic-tags';
+import { DropDownItem } from '@/components/epic-tags';
 
 function FieldContent() {
     const inputRef = useRef<HTMLInputElement>(null);

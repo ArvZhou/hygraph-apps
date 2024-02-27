@@ -2,10 +2,11 @@
 import { useCallback } from 'react';
 import { useFieldExtension, Wrapper } from '@hygraph/app-sdk-react';
 import Button from '@/components/field/button';
-import { AssetIcon, DeleteIcon, FileIcon } from '@/components/icons';
-import Image from '@/components/image';
+import { AssetIcon, DeleteIcon } from '@/components/icons';
 
 import styles from './index.module.css';
+import FileTypeImage from '@/components/epic-asset-picker/fileType';
+import { isVideoFile } from '@/utils';
 
 const SingleField = ({ value, onChange, isList = false }: {
   value: any,
@@ -13,7 +14,6 @@ const SingleField = ({ value, onChange, isList = false }: {
   isList?: boolean
 }) => {
   const { name, openDialog, extension } = useFieldExtension();
-
 
   const showAssetDialog = useCallback(async () => {
     const pickedAsset = await openDialog('/epic-asset-picker/field/assetDialog', {
@@ -33,21 +33,25 @@ const SingleField = ({ value, onChange, isList = false }: {
     <div className={styles.valueWrapper}>
       {
         value ? (
-          <div className={styles.value}>
-            <div className={styles.valueName}>
-              <div className={styles.imgWrapper}>
-                <Image
-                  src={value.thumbnails?.url || value.url}
-                  alt='Asset image'
-                  error={<FileIcon />}
-                />
+          <>
+            <div className={styles.value}>
+              <div className={styles.valueName}>
+                <div className={styles.imgWrapper}>
+                  <FileTypeImage url={value.thumbnails?.url || value.url}
+                  />
+                </div>
+                <span>{value.name}</span>
               </div>
-              <span>{value.name}</span>
+              <div className={styles.valueButton}>
+                <DeleteIcon onClick={() => onChange(null)} />
+              </div>
             </div>
-            <div className={styles.valueButton}>
-              <DeleteIcon onClick={() => onChange(null)} />
-            </div>
-          </div>
+            {
+              isVideoFile(value.url) ? (
+                <video src={value.url} className={styles.video} controls />
+              ) :''
+            }
+          </>
         ) : ''
       }
       {
